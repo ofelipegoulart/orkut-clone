@@ -1,6 +1,63 @@
 @import "tailwindcss";
 
-/* Legacy Orkut-style top bar (float layout, no flexbox) */
+/* =====================================================
+   ORKUT 2009 — Base reset + typography
+   Sourced directly from the original orkut CSS (castro skin, Jul 2009).
+   font-size: 12px, color: #000, font-family: Verdana,Arial,sans-serif
+   ===================================================== */
+body,
+div,
+ul,
+li,
+input,
+select,
+textarea,
+p,
+td,
+h1,
+h2,
+h3 {
+  color: #000;
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 12px;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  overflow-y: scroll;
+  overflow-x: auto;
+}
+
+img {
+  border: 0;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Links — original orkut values */
+a {
+  color: #02679c;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #00344f;
+  text-decoration: underline;
+}
+
+a img,
+img a {
+  border: 0;
+}
+
+/* =====================================================
+   Legacy Orkut-style top bar (float layout, no flexbox)
+   ===================================================== */
 #header {
   width: 100%;
   box-sizing: border-box;
@@ -8,15 +65,17 @@
   background: linear-gradient(to bottom, #5a8fd4 0%, #4a7ebb 45%, #3d6cab 100%);
   height: 31px;
   min-height: 31px;
-  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-family: Tahoma, Arial, sans-serif;
   font-size: 11px;
+  font-weight: normal;
   line-height: 1;
   color: #fff;
 }
 
 #headerin {
+  /* original: min-width 920px, max-width 1003px */
   min-width: 920px;
-  max-width: 1000px;
+  max-width: 1003px;
   margin: 0 auto;
   overflow: hidden;
   zoom: 1;
@@ -27,6 +86,19 @@
   margin: 0;
   padding: 0;
   list-style: none;
+  font-family: Tahoma, Arial, sans-serif;
+  font-size: 11px;
+}
+
+/* Força Tahoma em todos os descendentes do header,
+   sobrescrevendo o reset global que aplica Verdana em li, a, input */
+#header,
+#header li,
+#header a,
+#header span,
+#header div {
+  font-family: Tahoma, Arial, sans-serif;
+  font-size: 11px;
 }
 
 #header .header-nav {
@@ -73,7 +145,6 @@
   text-decoration: none;
 }
 
-/* Logo “tab”: subtle white → light gray (classic Orkut header) */
 #header .header-logo-box {
   display: inline-block;
   height: 31px;
@@ -103,7 +174,7 @@
   height: 20px;
   margin-top: 5px;
   padding: 2px 6px;
-  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-family: Verdana, Arial, sans-serif;
   font-size: 11px;
   line-height: 1.2;
   color: #222;
@@ -123,11 +194,15 @@
   outline-offset: 1px;
 }
 
-/* Profile page: centered shell aligned with #headerin, float columns with gutters */
+/* =====================================================
+   Profile page shell
+   original: #container min-width 920px, max-width 1003px
+   original: #lbox width 143px, #rbox width 284px
+   ===================================================== */
 .orkut-shell {
   box-sizing: border-box;
   min-width: 920px;
-  max-width: 1000px;
+  max-width: 1003px;
   width: 100%;
   margin-left: auto;
   margin-right: auto;
@@ -135,64 +210,117 @@
   padding-left: 8px;
   padding-right: 8px;
   padding-bottom: 20px;
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 12px;
 }
 
-/* Classic Orkut: células compactas (evita linhas “altas” demais) */
+/* original: td base reset already covers this, but keep explicit for shell */
 .orkut-shell td {
   padding: 2px 5px;
   vertical-align: top;
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 12px;
 }
 
-/*
- * Grade “social / sobre mim”: coluna 1 alinhada à direita, coluna 2 à esquerda;
- * altura mínima (padding e line-height enxutos, como no Orkut clássico).
- */
+/* =====================================================
+   Panel cards — asymmetric border-radius matching Orkut 2009
+   Top-right corner is notably more rounded than the others.
+   original .module: margin-bottom:8px
+   original .module .boxmid: padding-top:5px; padding-left:5px
+   original .module .boxmidlrg: padding:4px 2px 2px 7px
+   ===================================================== */
+.orkut-col-left {
+  border-radius: 10px 4px 4px 4px !important;
+  /* original .module .boxmid padding */
+  padding: 5px 5px 5px 5px;
+  margin-bottom: 8px;
+}
+
+.orkut-col-main {
+  border-radius: 4px 48px 4px 4px !important;
+  /* original .module .boxmidlrg: padding:4px 2px 2px 7px */
+  padding: 4px 2px 2px 7px;
+  margin-bottom: 8px;
+}
+
+.orkut-col-right > div {
+  /* original .module .boxmid padding */
+  padding: 5px 5px 5px 5px;
+  margin-bottom: 8px;
+}
+
+/* =====================================================
+   Social table — "social / sobre mim"
+   original .listfl: color:#676767, font-size:12px, line-height:17px, text-align:right
+   original .listp:  font-size:12px, line-height:17px
+   ===================================================== */
 .orkut-shell table.orkut-social-fields {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 11px;
-  line-height: 1;
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 12px;
+  line-height: 17px;
   border-collapse: collapse;
   table-layout: fixed;
   width: 100%;
 }
 
 .orkut-shell table.orkut-social-fields col.orkut-social-col-label {
-  width: 140px;
+  /* original #lbox is 143px; label col slightly narrower */
+  width: 148px;
+}
+
+/* Gray divider between every row */
+.orkut-shell table.orkut-social-fields tr {
+  border-bottom: 1px solid #c8d8e8;
+}
+
+.orkut-shell table.orkut-social-fields tr:last-child {
+  border-bottom: none;
 }
 
 .orkut-shell table.orkut-social-fields td {
   margin: 0;
-  padding: 0 4px;
-  line-height: 1.05;
+  padding: 2px 4px;
+  line-height: 17px;
   vertical-align: top;
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 12px;
 }
 
+/* original .listfl: color:#676767, text-align:right */
 .orkut-shell table.orkut-social-fields td.orkut-social-label {
   box-sizing: border-box;
   font-weight: normal;
-  color: #5a6d82;
+  color: #676767;
   text-align: right !important;
-  padding: 0 8px 0 4px;
+  padding: 2px 8px 2px 4px;
+  white-space: nowrap;
 }
 
+/* original .listp: color inherited (#000), text-align left */
 .orkut-shell table.orkut-social-fields td.orkut-social-value {
   font-weight: normal;
   color: #000;
   text-align: left !important;
-  padding: 0 6px 0 2px;
+  padding: 2px 6px 2px 2px;
 }
 
 .orkut-shell table.orkut-social-fields td.orkut-social-value a {
   font-weight: normal;
-  color: #003399;
+  color: #02679c;
 }
 
-/* envolve só a tabela social: sem padding extra do td pai */
+/* Wrapper td for the social table — no extra padding */
 .orkut-shell td.orkut-social-table-wrap {
   padding: 0 !important;
   vertical-align: top;
 }
 
+/* =====================================================
+   Three-column float layout
+   original: #lbox 143px, #rbox 284px
+   We keep 200px left / 240px right as design choice,
+   but align max-width with original 1003px container.
+   ===================================================== */
 .orkut-three-col {
   zoom: 1;
 }
@@ -205,13 +333,13 @@
 
 .orkut-col-left {
   float: left;
-  width: 200px;
+  width: 143px;
   margin-right: 10px;
 }
 
 .orkut-col-main {
   float: left;
-  width: calc(100% - 460px);
+  width: calc(100% - 403px);
   margin-right: 10px;
 }
 
@@ -220,4 +348,27 @@
   width: 240px;
 }
 
-/* 200 + 10 + 10 + 240 = 460px fixed + gutters between three columns */
+/* =====================================================
+   Profile name heading — Arial, traço fino, sem negrito
+   Sobrescreve o reset global que força font-size:12px em h1
+   ===================================================== */
+.orkut-col-main h1 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 22px;
+  line-height: 28px;
+  font-weight: normal;
+  color: #000;
+  margin: 0;
+  padding: 7px 0 5px;
+}
+
+/* =====================================================
+   Friend/community thumbnail names
+   original .uname: font-size:11px, line-height:12px, text-align:center
+   ===================================================== */
+.orkut-uname {
+  font-size: 11px;
+  line-height: 12px;
+  text-align: center;
+  padding: 0 3px 3px;
+}

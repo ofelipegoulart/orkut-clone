@@ -1,4 +1,4 @@
-import { ProfileContent } from "@/src/components/profile-content";
+import { ProfileContent } from "@/components/profile-content";
 
 const DEFAULT_USERNAME = "felipe";
 
