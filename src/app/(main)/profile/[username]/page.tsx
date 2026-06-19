@@ -24,14 +24,14 @@ export default async function ProfilePage({ params }: any) {
   return (
     <div className="min-h-screen w-full bg-[#d4e0ef]">
       <div className="orkut-col-main border border-[#bcd2e8] bg-white shadow-sm">
-        <OrkutMainColumn displayName={displayName} />
+        <OrkutMainColumn displayName={displayName} username={username} />
       </div>
       <div className="orkut-col-right">
         <div className="border border-[#bcd2e8] bg-white shadow-sm rounded-[4px_14px_4px_4px]">
-          <OrkutFriends friends={FRIENDS} />
+          <OrkutFriends friends={FRIENDS} username={username} />
         </div>
         <div className="border border-[#bcd2e8] bg-white shadow-sm rounded-[4px_14px_4px_4px]">
-          <OrkutCommunities communities={COMMUNITIES} />
+          <OrkutCommunities communities={COMMUNITIES} username={username} />
         </div>
       </div>
     </div>

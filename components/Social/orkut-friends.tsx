@@ -1,12 +1,12 @@
 type friends = { name: string; count: number; seed: string }[]
 
-export default function OrkutFriends({ friends }: { friends: friends }) {
+export default function OrkutFriends({ friends, username }: { friends: friends; username: string }) {
     return (
         <div>
             <div>
                 <div className="font-[Tahoma,Verdana,Arial,sans-serif] text-[15px] leading-5.25 mt-1.25 mb-1.5 font-bold">
                     <span className="text-black">amigos </span>
-                    <a href="#" className="text-[#02679c] font-bold">(51)</a>
+                    <a href={`/profile/${username}/amigos`} className="text-[#02679c] font-bold">(51)</a>
                 </div>
 
                 <div className="-mx-0.75">
@@ -41,7 +41,7 @@ export default function OrkutFriends({ friends }: { friends: friends }) {
                         </tbody>
                     </table>
                     <div className="border-t border-[#d4e0ef] pt-1 mt-0.5">
-                        <a href="#" className="underline">ver todos</a>
+                        <a href={`/profile/${username}/amigos`} className="underline">ver todos</a>
                     </div>
                 </div>
             </div>

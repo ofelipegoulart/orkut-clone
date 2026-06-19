@@ -24,13 +24,13 @@ export function OrkutHeader({ email }: OrkutHeaderProps) {
             </a>
           </li>
           <li>
-            <a href="#">Início</a>
+            <a href="/">Início</a>
           </li>
           <li>
             <a href="#">Perfil</a>
           </li>
           <li>
-            <a href="#">Página de recados</a>
+            <a href="">Página de recados</a>
           </li>
           <li>
             <a href="#">Amigos</a>
