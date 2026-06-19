@@ -4,7 +4,7 @@ import { SexyIndicator } from "@/utils/sexy-indicator";
 import { TrustableIndicator } from "@/utils/trustable-indicator";
 import { PROFILE_ROWS, ORKUT_MENU_ICONS } from "@/data/mock-data";
 
-export function OrkutMainColumn({ displayName, username }: { displayName: string; username: string }) {
+export function OrkutMainColumn({ displayName, userId }: { displayName: string; userId: string }) {
   return (
     <table className="w-full border-collapse" cellPadding={0} cellSpacing={0}>
       <tbody>
@@ -29,7 +29,7 @@ export function OrkutMainColumn({ displayName, username }: { displayName: string
                   {/* recados */}
                   <td className="pr-3 align-top">
                     <div className="text-[#5a5a5a] text-[11px] leading-3.5">
-                      <a href={`/profile/${username}/recados`} className="text-[#5a5a5a] no-underline">recados</a>
+                      <a href={`/profile/${userId}/recados`} className="text-[#5a5a5a] no-underline">recados</a>
                     </div>
                     <div className="leading-4">
                       <OrkutMenuIcon src={ORKUT_MENU_ICONS.recados} />
@@ -39,7 +39,7 @@ export function OrkutMainColumn({ displayName, username }: { displayName: string
                   {/* fotos */}
                   <td className="pr-3 align-top">
                     <div className="text-[#5a5a5a] text-[11px] leading-3.5">
-                      <a href={`/profile/${username}/fotos`} className="text-[#5a5a5a] no-underline">fotos</a>
+                      <a href={`/profile/${userId}/fotos`} className="text-[#5a5a5a] no-underline">fotos</a>
                     </div>
                     <div className="leading-4">
                       <OrkutMenuIcon src={ORKUT_MENU_ICONS.fotos} />

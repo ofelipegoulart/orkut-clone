@@ -1,10 +1,10 @@
 type communities = { name: string; seed: string }[]
-export default function OrkutCommunities({ communities, username }: { communities: communities; username: string }) {
+export default function OrkutCommunities({ communities, userId }: { communities: communities; userId: string }) {
   return (
     <div>
       <div className="font-[Tahoma,Verdana,Arial,sans-serif] text-[15px] leading-5.25 mt-1.25 mb-1.5 font-bold">
         <span className="text-black">comunidades </span>
-        <a href={`/profile/${username}/comunidades`} className="text-[#02679c] font-bold">(313)</a>
+        <a href={`/profile/${userId}/comunidades`} className="text-[#02679c] font-bold">(313)</a>
       </div>
 
       <div className="-mx-0.75">

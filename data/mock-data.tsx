@@ -1,5 +1,19 @@
 import type { ReactNode } from "react";
 
+export type User = {
+  id: string;
+  name: string;
+  email: string;
+  avatarSeed: string;
+};
+
+export const CURRENT_USER: User = {
+  id: "x7Kp2mNq",
+  name: "Felipe",
+  email: "ofelipegoulart@gmail.com",
+  avatarSeed: "profile-main",
+};
+
 export const PROFILE_ROWS: { label: string; value: ReactNode }[] = [
   { label: "relacionamento:", value: "solteiro(a)" },
   { label: "aniversário:", value: "15 de julho" },
@@ -16,16 +30,16 @@ export const PROFILE_ROWS: { label: string; value: ReactNode }[] = [
   { label: "página web:", value: <a className="text-[#003399] underline">http://</a> },
 ];
 
-export const FRIENDS: { name: string; count: number; seed: string }[] = [
-  { name: "Priscilaaa", count: 485, seed: "a" },
-  { name: "Júlia", count: 120, seed: "b" },
-  { name: "Rafa", count: 88, seed: "c" },
-  { name: "Lucas", count: 64, seed: "d" },
-  { name: "Marina", count: 52, seed: "e" },
-  { name: "Pedro", count: 41, seed: "f" },
-  { name: "Ana", count: 33, seed: "g" },
-  { name: "Bruno", count: 29, seed: "h" },
-  { name: "Camila", count: 22, seed: "i" },
+export const FRIENDS: { id: string; name: string; count: number; seed: string }[] = [
+  { id: "aB3cD4eF", name: "Priscilaaa", count: 485, seed: "a" },
+  { id: "gH5iJ6kL", name: "Júlia", count: 120, seed: "b" },
+  { id: "mN7oP8qR", name: "Rafa", count: 88, seed: "c" },
+  { id: "sT9uV0wX", name: "Lucas", count: 64, seed: "d" },
+  { id: "yZ1aB2cD", name: "Marina", count: 52, seed: "e" },
+  { id: "eF3gH4iJ", name: "Pedro", count: 41, seed: "f" },
+  { id: "kL5mN6oP", name: "Ana", count: 33, seed: "g" },
+  { id: "qR7sT8uV", name: "Bruno", count: 29, seed: "h" },
+  { id: "wX9yZ0aB", name: "Camila", count: 22, seed: "i" },
 ];
 
 export const COMMUNITIES: { name: string; seed: string }[] = [
@@ -49,9 +63,10 @@ export const ORKUT_MENU_ICONS = {
   fans: "/icons/p_fan.png",
 } as const;
 
-export const MOCK_RECADOS: { id: string; author: string; authorSeed: string; content: string; timestamp: string }[] = [
+export const MOCK_RECADOS: { id: string; authorId: string; author: string; authorSeed: string; content: string; timestamp: string }[] = [
   {
     id: "1",
+    authorId: "cD1eF2gH",
     author: "Miles Alexander",
     authorSeed: "miles",
     content: "Yo, let's grab dinner later tonight at the pizza place near my house. Sound good?",
@@ -59,6 +74,7 @@ export const MOCK_RECADOS: { id: string; author: string; authorSeed: string; con
   },
   {
     id: "2",
+    authorId: "iJ3kL4mN",
     author: "Sofia Santos",
     authorSeed: "sofia",
     content: "Adorei aquele vídeo que você mandou! Hilário demais 😂",
@@ -66,6 +82,7 @@ export const MOCK_RECADOS: { id: string; author: string; authorSeed: string; con
   },
   {
     id: "3",
+    authorId: "aB3cD4eF",
     author: "Priscila Silva",
     authorSeed: "priscila",
     content: "Vamos de cinema no fim de semana? Tem um filme novo legal saindo!",
@@ -73,6 +90,7 @@ export const MOCK_RECADOS: { id: string; author: string; authorSeed: string; con
   },
   {
     id: "4",
+    authorId: "sT9uV0wX",
     author: "Lucas Oliveira",
     authorSeed: "lucas",
     content: "Que roupa legal! Aonde você arrumou?",
@@ -80,6 +98,7 @@ export const MOCK_RECADOS: { id: string; author: string; authorSeed: string; con
   },
   {
     id: "5",
+    authorId: "yZ1aB2cD",
     author: "Marina Costa",
     authorSeed: "marina",
     content: "Encontrei essas fotos nossas de quando fomos na praia. Quer que eu mande?",

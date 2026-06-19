@@ -1,8 +1,8 @@
 import { FRIENDS, COMMUNITIES } from "@/data/mock-data";
-import OrkutCommunities from "@/components/Social/orkut-communities";
+import OrkutFriends from "@/components/Social/orkut-friends";
 
-export default async function AmigosPage({ params }: any) {
-  const { username } = await params;
+export default async function ComunidadesPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
 
   return (
     <div className="min-h-screen w-full bg-[#d4e0ef]">
@@ -15,7 +15,7 @@ export default async function AmigosPage({ params }: any) {
                   className="font-normal text-black py-[7px] pb-[5px]"
                   style={{ fontFamily: "Arial, Helvetica, sans-serif", fontSize: "22px", lineHeight: "28px", fontWeight: "normal" }}
                 >
-                  Amigos ({FRIENDS.length})
+                  Comunidades ({COMMUNITIES.length})
                 </h1>
               </td>
             </tr>
@@ -23,24 +23,23 @@ export default async function AmigosPage({ params }: any) {
               <td className="flex flex-row gap-1 px-2 pb-3">
                 <a href="#">Início</a>
                 {" > "}
-                <span className="text-[#5a5a5a]">Amigos</span>
+                <span className="text-[#5a5a5a]">Comunidades</span>
               </td>
             </tr>
             <tr>
               <td className="px-2 pb-4">
                 <div className="grid grid-cols-3 gap-2">
-                  {FRIENDS.map((f) => (
-                    <div key={f.name} className="align-top bg-[#e8edf2] px-3 py-4 text-center">
+                  {COMMUNITIES.map((c) => (
+                    <div key={c.name} className="align-top bg-[#e8edf2] px-3 py-4 text-center">
                       <img
-                        src={`https://picsum.photos/seed/${f.seed}/48/48`}
+                        src={`https://picsum.photos/seed/comm-${c.seed}/48/48`}
                         alt=""
                         width={48}
                         height={48}
                         className="mx-auto border border-[#bcd2e8]"
                       />
                       <div className="orkut-uname mt-1">
-                        <a href="#">{f.name}</a>{" "}
-                        <span className="text-[#8c8c8c]">({f.count})</span>
+                        <a href="#">{c.name}</a>
                       </div>
                     </div>
                   ))}
@@ -52,7 +51,7 @@ export default async function AmigosPage({ params }: any) {
       </div>
       <div className="orkut-col-right">
         <div className="border border-[#bcd2e8] bg-white shadow-sm rounded-[4px_14px_4px_4px]">
-          <OrkutCommunities communities={COMMUNITIES} username={username} />
+          <OrkutFriends friends={FRIENDS} userId={id} />
         </div>
       </div>
     </div>

@@ -2,8 +2,8 @@ import { FRIENDS, COMMUNITIES, MOCK_RECADOS } from "@/data/mock-data";
 import OrkutCommunities from "@/components/Social/orkut-communities";
 import OrkutFriends from "@/components/Social/orkut-friends";
 
-export default async function RecadosPage({ params }: any) {
-  const { username } = await params;
+export default async function RecadosPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
 
   return (
     <div className="min-h-screen w-full bg-[#d4e0ef]">
@@ -99,18 +99,20 @@ export default async function RecadosPage({ params }: any) {
                         </div>
                         <div className="flex gap-3 flex-grow">
                           <div className="flex-shrink-0">
-                            <img
-                              src={`https://picsum.photos/seed/${recado.authorSeed}/48/48`}
-                              alt=""
-                              width={48}
-                              height={48}
-                              className="border border-[#bcd2e8]"
-                            />
+                            <a href={`/profile/${recado.authorId}`}>
+                              <img
+                                src={`https://picsum.photos/seed/${recado.authorSeed}/48/48`}
+                                alt=""
+                                width={48}
+                                height={48}
+                                className="border border-[#bcd2e8]"
+                              />
+                            </a>
                           </div>
                           <div className="flex-grow">
                             <div className="flex justify-between items-start">
                               <div>
-                                <a href="#" className="text-[#02679c] font-bold text-[13px]">
+                                <a href={`/profile/${recado.authorId}`} className="text-[#02679c] font-bold text-[13px]">
                                   {recado.author}:
                                 </a>
                               </div>
@@ -145,10 +147,10 @@ export default async function RecadosPage({ params }: any) {
       </div>
       <div className="orkut-col-right">
         <div className="border border-[#bcd2e8] bg-white shadow-sm rounded-[4px_14px_4px_4px]">
-          <OrkutFriends friends={FRIENDS} username={username} />
+          <OrkutFriends friends={FRIENDS} userId={id} />
         </div>
         <div className="border border-[#bcd2e8] bg-white shadow-sm rounded-[4px_14px_4px_4px]">
-          <OrkutCommunities communities={COMMUNITIES} username={username} />
+          <OrkutCommunities communities={COMMUNITIES} userId={id} />
         </div>
       </div>
     </div>
