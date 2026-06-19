@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { LogoutButton } from "./logout-button";
 
 type OrkutHeaderProps = {
   email: string;
@@ -42,7 +43,7 @@ export function OrkutHeader({ email }: OrkutHeaderProps) {
         <ul className="header-user">
           <li><span className="text-white font-bold">{email}</span></li>
           <li>
-            <a href="#">Sair</a>
+            <LogoutButton />
           </li>
           <li className="header-search-li flex align-middle">
             <label htmlFor="orkut-header-search" className="sr-only">

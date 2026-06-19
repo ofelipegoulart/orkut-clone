@@ -1,6 +1,65 @@
-import { terms } from "@/data/terms"
+"use client";
+
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { terms } from "@/data/terms";
 
 export default function Register() {
+  const router = useRouter();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setError("");
+
+    const formData = new FormData(e.currentTarget);
+    const firstName = (formData.get("FirstName") as string).trim();
+    const lastName = (formData.get("LastName") as string).trim();
+    const email = (formData.get("Email") as string).trim();
+    const password = formData.get("Passwd") as string;
+    const passwordConfirm = formData.get("PasswdAgain") as string;
+
+    if (!firstName || !lastName || !email || !password) {
+      setError("Preencha todos os campos obrigatórios.");
+      return;
+    }
+
+    if (password !== passwordConfirm) {
+      setError("As senhas não coincidem.");
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("A senha deve ter no mínimo 6 caracteres.");
+      return;
+    }
+
+    setLoading(true);
+
+    const name = `${firstName} ${lastName}`;
+
+    const registerRes = await fetch("/api/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, password }),
+    });
+
+    if (!registerRes.ok) {
+      setLoading(false);
+      const data = await registerRes.json();
+      if (registerRes.status === 400 || registerRes.status === 409) {
+        setError(data.message || "Este e-mail já está em uso.");
+      } else {
+        setError("Erro ao criar conta. Tente novamente.");
+      }
+      return;
+    }
+
+    setLoading(false);
+    router.push("/account");
+  }
+
   return (
     <div className="font-[arial,sans-serif] m-0 p-[13px_15px_15px] bg-white text-black">
       <div className="mb-[9px] -ml-0.5 relative overflow-hidden">
@@ -39,7 +98,13 @@ export default function Register() {
 
         <br />
 
-        <form id="createaccount" name="createaccount" action="#" method="post">
+        {error && (
+          <div className="bg-[#fff3f3] border border-red-300 text-red-700 text-sm px-3 py-2 mb-3 max-w-[700px]">
+            {error}
+          </div>
+        )}
+
+        <form id="createaccount" name="createaccount" onSubmit={handleSubmit}>
           <table cellPadding={2} cellSpacing={0} width="1%">
             <tbody>
               <tr>
@@ -88,6 +153,7 @@ export default function Register() {
                                             id="FirstName"
                                             size={30}
                                             className="border border-[#999]"
+                                            required
                                           />
                                         </td>
                                       </tr>
@@ -106,6 +172,7 @@ export default function Register() {
                                             id="LastName"
                                             size={30}
                                             className="border border-[#999]"
+                                            required
                                           />
                                         </td>
                                       </tr>
@@ -119,11 +186,12 @@ export default function Register() {
                                         </td>
                                         <td>
                                           <input
-                                            type="text"
+                                            type="email"
                                             name="Email"
                                             id="Email"
                                             size={30}
                                             className="border border-[#999]"
+                                            required
                                           />
                                           <span className="text-xs text-[#6f6f6f] block mt-0.5">
                                             ex: meunome@exemplo.com. Este será
@@ -147,9 +215,10 @@ export default function Register() {
                                             id="Passwd"
                                             size={30}
                                             className="border border-[#999]"
+                                            required
                                           />
                                           <span className="text-xs text-[#6f6f6f] block mt-0.5">
-                                            Mínimo de 8 caracteres.
+                                            Mínimo de 6 caracteres.
                                           </span>
                                         </td>
                                       </tr>
@@ -168,6 +237,7 @@ export default function Register() {
                                             id="PasswdAgain"
                                             size={30}
                                             className="border border-[#999]"
+                                            required
                                           />
                                         </td>
                                       </tr>
@@ -204,53 +274,6 @@ export default function Register() {
                                           <span className="text-[#3366cc] font-bold">
                                             Comece a usar o orkut
                                           </span>
-                                        </td>
-                                      </tr>
-
-                                      {/* Verificação de palavras */}
-                                      <tr>
-                                        <td className="align-top">
-                                          <span className="text-sm font-bold">
-                                            Verificação de palavras:
-                                          </span>
-                                        </td>
-                                        <td>
-                                          <table>
-                                            <tbody>
-                                              <tr>
-                                                <td className="align-top"></td>
-                                                <td className="align-top">
-                                                  <span className="text-sm block mb-1">
-                                                    Digite os caracteres que
-                                                    você vê na imagem abaixo.
-                                                  </span>
-                                                  <div className="w-[200px] h-[70px] bg-gray-200 border border-gray-300 flex items-center justify-center mb-1">
-                                                    <span className="text-xs text-gray-400">
-                                                      [imagem de verificação]
-                                                    </span>
-                                                  </div>
-                                                </td>
-                                              </tr>
-                                              <tr>
-                                                <td></td>
-                                                <td>
-                                                  <input
-                                                    type="text"
-                                                    size={22}
-                                                    id="newaccountcaptcha"
-                                                    name="newaccountcaptcha"
-                                                    defaultValue=""
-                                                    title="Digite os caracteres que você vê ou os números que você ouve"
-                                                    className="border border-[#999]"
-                                                  />
-                                                  <span className="text-xs text-[#6f6f6f] block mt-0.5">
-                                                    As letras não diferenciam
-                                                    maiúsculas de minúsculas.
-                                                  </span>
-                                                </td>
-                                              </tr>
-                                            </tbody>
-                                          </table>
                                         </td>
                                       </tr>
 
@@ -346,11 +369,16 @@ export default function Register() {
                                         <td colSpan={1}>&nbsp;</td>
                                         <td>
                                           <input
-                                            className="w-[19em]"
+                                            className="w-[19em] disabled:opacity-50"
                                             id="submitbutton"
                                             name="submitbutton"
                                             type="submit"
-                                            value="Aceito. Criar minha conta."
+                                            value={
+                                              loading
+                                                ? "Criando conta..."
+                                                : "Aceito. Criar minha conta."
+                                            }
+                                            disabled={loading}
                                           />
                                         </td>
                                       </tr>

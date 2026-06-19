@@ -1,7 +1,39 @@
+"use client";
+
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+
 export default function LoginPage() {
-  //TODO: login e senha incorretos: O nome de usuário e senha são incorretos,
-  // colocar em vermelho e embaixo do input da senha
-  
+  const router = useRouter();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    const formData = new FormData(e.currentTarget);
+    const email = formData.get("Email") as string;
+    const password = formData.get("Passwd") as string;
+
+    const result = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+
+    setLoading(false);
+
+    if (result?.error) {
+      setError("O nome de usuário e senha são incorretos.");
+      return;
+    }
+
+    router.push("/");
+  }
+
   return (
     <div
       className="min-h-screen bg-[#D4DDED] p-[10px] text-xs text-black"
@@ -33,8 +65,7 @@ export default function LoginPage() {
           <div id="gaia_loginbox" className="flex-1 bg-[#E8EEFA] text-center px-6">
             <form
               id="gaia_loginform"
-              action=""
-              method="post"
+              onSubmit={handleSubmit}
             >
               <div
                 id="gaia_table"
@@ -62,7 +93,7 @@ export default function LoginPage() {
                   size={15}
                   defaultValue=""
                   className="font-sans text-xs border border-[#767676] px-0.5 py-px"
-                  style={{ backgroundColor: 'white' }}
+                  style={{ backgroundColor: "white" }}
                 />
                 <div className="text-right pr-1">
                   <span className="font-sans text-xs">Senha:</span>
@@ -72,9 +103,18 @@ export default function LoginPage() {
                   name="Passwd"
                   id="Passwd"
                   size={15}
-                  className="font-sans text-xs border border-[#767676] px-0.5 py-px"
-                  style={{ backgroundColor: 'white' }}
+                  className={`font-sans text-xs border px-0.5 py-px ${error ? "border-red-500" : "border-[#767676]"}`}
+                  style={{ backgroundColor: "white" }}
                 />
+
+                {error && (
+                  <>
+                    <div></div>
+                    <div className="text-left text-red-600 text-[10px]">
+                      {error}
+                    </div>
+                  </>
+                )}
 
                 <div className="text-right self-start pt-0.5 pr-1">
                   <input
@@ -109,9 +149,10 @@ export default function LoginPage() {
                 <div className="text-left">
                   <input
                     type="submit"
-                    className="font-sans text-xs cursor-pointer border border-[#767676] bg-[#ECECEC] px-1.5 py-px"
+                    className="font-sans text-xs cursor-pointer border border-[#767676] bg-[#ECECEC] px-1.5 py-px disabled:opacity-50"
                     name="login"
-                    value="Login"
+                    value={loading ? "Entrando..." : "Login"}
+                    disabled={loading}
                   />
                 </div>
 
@@ -146,7 +187,7 @@ export default function LoginPage() {
       </div>
 
       <div className="bg-[#BCCDE9] mt-[10px] text-xs p-[5px] text-center">
-        &copy;2009{" "}Google{" "}-{" "}
+        &copy;2009{" "}Google{" "}-{" "}
         <a
           className="text-[#0047BE] hover:text-[#C40098]"
           style={{ textDecoration: "underline" }}
@@ -154,7 +195,7 @@ export default function LoginPage() {
         >
           Sobre O Orkut
         </a>
-        {" "}-{" "}
+        {" "}-{" "}
         <a
           className="text-[#0047BE] hover:text-[#C40098]"
           href=""
@@ -162,7 +203,7 @@ export default function LoginPage() {
         >
           Centro de Segurança
         </a>
-        {" "}-{" "}
+        {" "}-{" "}
         <a
           className="text-[#0047BE] hover:text-[#C40098]"
           href=""
@@ -170,7 +211,7 @@ export default function LoginPage() {
         >
           Privacidade
         </a>
-        {" "}-{" "}
+        {" "}-{" "}
         <a
           className="text-[#0047BE] hover:text-[#C40098]"
           href=""

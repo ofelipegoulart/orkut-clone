@@ -1,7 +1,13 @@
-import ProfilePage from "./profile/[username]/page";
+import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
-const DEFAULT_USERNAME = "felipe";
+export default async function Home() {
+  const session = await getServerSession(authOptions);
 
-export default function Home() {
-  return <ProfilePage params={{ username: DEFAULT_USERNAME }} />;
+  if (!session) {
+    redirect("/account");
+  }
+
+  redirect(`/profile/${session.user.userId}`);
 }
