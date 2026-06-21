@@ -31,12 +31,12 @@ export default function LoginPage() {
       return;
     }
 
-    router.push("/");
+    router.push("/profile");
   }
 
   return (
     <div
-      className="min-h-screen bg-[#D4DDED] p-[10px] text-xs text-black"
+      className="min-h-screen bg-orkut-bg p-[10px] text-xs text-black"
       style={{ fontFamily: "Verdana, Arial, sans-serif" }}
     >
       <div className="flex gap-[10px] w-full">
@@ -51,18 +51,18 @@ export default function LoginPage() {
             />
           </div>
           <div className="px-5 py-[10px] leading-[1.5em] text-xs text-center">
-            <b className="text-[#B11E89]">Conecte-se</b> com amigos e familiares
+            <b className="text-orkut-accent-pink">Conecte-se</b> com amigos e familiares
             usandoo recados e mensagens instantâneas <br />
-            <b className="text-[#B11E89]">Conheça</b> novas pessoas através de
+            <b className="text-orkut-accent-pink">Conheça</b> novas pessoas através de
             amigos de seus amigos e comunidades <br />
-            <b className="text-[#B11E89]">Compartilhe</b> seus vídeos, fotos e
+            <b className="text-orkut-accent-pink">Compartilhe</b> seus vídeos, fotos e
             paixões em um só lugar
           </div>
         </div>
 
         {/* Right panel */}
         <div className="bg-white p-[3px] w-[264px] flex flex-col">
-          <div id="gaia_loginbox" className="flex-1 bg-[#E8EEFA] text-center px-6">
+          <div id="gaia_loginbox" className="flex-1 bg-orkut-tab-inactive text-center px-6">
             <form
               id="gaia_loginform"
               onSubmit={handleSubmit}
@@ -171,9 +171,9 @@ export default function LoginPage() {
             </form>
           </div>
 
-          <div className="h-[7px] bg-[#D4DDED] my-[3px] -mx-[3px]"></div>
+          <div className="h-[7px] bg-orkut-bg my-[3px] -mx-[3px]"></div>
 
-          <div className="text-xs bg-[#E8EEFA] py-2 px-[3px] text-center leading-[1.7em]">
+          <div className="text-xs bg-orkut-tab-inactive py-2 px-[3px] text-center leading-[1.7em]">
             Ainda não é membro?
             <br />
             <a
@@ -186,7 +186,7 @@ export default function LoginPage() {
         </div>
       </div>
 
-      <div className="bg-[#BCCDE9] mt-[10px] text-xs p-[5px] text-center">
+      <div className="bg-orkut-border mt-[10px] text-xs p-[5px] text-center">
         &copy;2009{" "}Google{" "}-{" "}
         <a
           className="text-[#0047BE] hover:text-[#C40098]"

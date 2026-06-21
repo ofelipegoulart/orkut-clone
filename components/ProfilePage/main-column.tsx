@@ -3,14 +3,107 @@ import { CoolIndicator } from "@/utils/cool-indicator";
 import { SexyIndicator } from "@/utils/sexy-indicator";
 import { TrustableIndicator } from "@/utils/trustable-indicator";
 import { PROFILE_ROWS, ORKUT_MENU_ICONS } from "@/data/mock-data";
+import fortunes from "@/data/fortunes.json";
+import type { ReactNode } from "react";
 
-export function OrkutMainColumn({ displayName, userId }: { displayName: string; userId: string }) {
+function getFortuneOfTheDay(): string {
+  const today = new Date();
+  const start = new Date(today.getFullYear(), 0, 0);
+  const dayOfYear = Math.floor((today.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
+  const keys = Object.keys(fortunes);
+  const index = dayOfYear % keys.length;
+  return fortunes[keys[index] as keyof typeof fortunes];
+}
+
+function FortuneOfTheDay() {
+  const fortune = getFortuneOfTheDay();
+  return (
+    <div className="text-[14px] text-[#333] py-1" style={{ fontFamily: "Tahoma, Verdana, Arial, sans-serif" }}>
+      <span className="font-bold text-[14px]">Sorte do dia: </span>
+      {fortune}
+    </div>
+  );
+}
+
+function IconCell({ href, label, icon, count }: { href: string; label: string; icon: string; count: number }) {
+  return (
+    <td className="pr-3 align-top">
+      <div className="text-[#5a5a5a] text-[11px] leading-3.5">
+        <a href={href} className="text-[#5a5a5a] no-underline">{label}</a>
+      </div>
+      <div className="leading-4">
+        <OrkutMenuIcon src={icon} />
+        <span className="text-[11px]">{count}</span>
+      </div>
+    </td>
+  );
+}
+
+function OwnProfileView({ displayName, userId }: { displayName: string; userId: string }) {
+  return (
+    <table className="w-full border-collapse" cellPadding={0} cellSpacing={0}>
+      <tbody>
+        <tr>
+          <td className="pb-1">
+            <h1
+              className="font-normal text-black py-1.75 pb-1.25"
+              style={{ fontFamily: "Arial, Helvetica, sans-serif", fontSize: "22px", lineHeight: "28px", fontWeight: "normal" }}
+            >
+              Bem-vindo, {displayName}
+            </h1>
+          </td>
+        </tr>
+        <tr>
+          <td className="pb-2">
+            <div className="flex items-center gap-2 border border-orkut-border bg-[#f5f9ff] px-2 py-1.5">
+              <span
+                className="flex-1 text-[#999] text-[12px]"
+                style={{ fontFamily: "Tahoma, Verdana, Arial, sans-serif" }}
+              >
+                Defina seu status aqui
+              </span>
+              <button
+                type="button"
+                className="border border-orkut-border bg-orkut-tab-inactive px-3 py-0.5 text-[11px] text-[#333] cursor-default"
+                style={{ fontFamily: "Tahoma, Verdana, Arial, sans-serif" }}
+              >
+                editar
+              </button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td className="pb-2">
+            <div className="border-t border-orkut-border"></div>
+            <table className="border-collapse" cellPadding={0} cellSpacing={0}>
+              <tbody>
+                <tr className="align-top">
+                  <IconCell href={`/profile/${userId}/recados`} label="recados" icon={ORKUT_MENU_ICONS.recados} count={0} />
+                  <IconCell href={`/profile/${userId}/fotos`} label="fotos" icon={ORKUT_MENU_ICONS.fotos} count={0} />
+                  <IconCell href="#" label="vídeos" icon={ORKUT_MENU_ICONS.videos} count={0} />
+                  <IconCell href="#" label="fãs" icon={ORKUT_MENU_ICONS.fans} count={0} />
+                </tr>
+              </tbody>
+            </table>
+            <div className="border-t border-orkut-border"></div>
+          </td>
+        </tr>
+        <tr>
+          <td className="pb-2">
+            <FortuneOfTheDay />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  );
+}
+
+function VisitorProfileView({ displayName, userId, profileRows }: { displayName: string; userId: string; profileRows: { label: string; value: ReactNode }[] }) {
   return (
     <table className="w-full border-collapse" cellPadding={0} cellSpacing={0}>
       <tbody>
         <tr>
           <td className="pb-2">
-            {/* Profile name heading — Arial, traço fino, sem negrito, como no Orkut 2009 */}
             <h1
               className="font-normal text-black py-1.75 pb-1.25"
               style={{ fontFamily: "Arial, Helvetica, sans-serif", fontSize: "22px", lineHeight: "28px", fontWeight: "normal" }}
@@ -21,51 +114,14 @@ export function OrkutMainColumn({ displayName, userId }: { displayName: string; 
         </tr>
         <tr>
           <td className="pb-2">
-            <div className="border-t border-[#d4e0ef]"></div>
-            {/* recados / fotos / vídeos / fãs / confiável / legal / sexy */}
+            <div className="border-t border-orkut-border"></div>
             <table className="border-collapse" cellPadding={0} cellSpacing={0}>
               <tbody>
                 <tr className="align-top">
-                  {/* recados */}
-                  <td className="pr-3 align-top">
-                    <div className="text-[#5a5a5a] text-[11px] leading-3.5">
-                      <a href={`/profile/${userId}/recados`} className="text-[#5a5a5a] no-underline">recados</a>
-                    </div>
-                    <div className="leading-4">
-                      <OrkutMenuIcon src={ORKUT_MENU_ICONS.recados} />
-                      <span className="text-[11px]">114</span>
-                    </div>
-                  </td>
-                  {/* fotos */}
-                  <td className="pr-3 align-top">
-                    <div className="text-[#5a5a5a] text-[11px] leading-3.5">
-                      <a href={`/profile/${userId}/fotos`} className="text-[#5a5a5a] no-underline">fotos</a>
-                    </div>
-                    <div className="leading-4">
-                      <OrkutMenuIcon src={ORKUT_MENU_ICONS.fotos} />
-                      <span className="text-[11px]">0</span>
-                    </div>
-                  </td>
-                  {/* vídeos */}
-                  <td className="pr-3 align-top">
-                    <div className="text-[#5a5a5a] text-[11px] leading-3.5">
-                      <a href="#" className="text-[#5a5a5a] no-underline">vídeos</a>
-                    </div>
-                    <div className="leading-4">
-                      <OrkutMenuIcon src={ORKUT_MENU_ICONS.videos} />
-                      <span className="text-[11px]">5</span>
-                    </div>
-                  </td>
-                  {/* fãs */}
-                  <td className="pr-3 align-top">
-                    <div className="text-[#5a5a5a] text-[11px] leading-3.5">
-                      <a href="#" className="text-[#5a5a5a] no-underline">fãs</a>
-                    </div>
-                    <div className="leading-4">
-                      <OrkutMenuIcon src={ORKUT_MENU_ICONS.fans} />
-                      <span className="text-[11px]">15</span>
-                    </div>
-                  </td>
+                  <IconCell href={`/profile/${userId}/recados`} label="recados" icon={ORKUT_MENU_ICONS.recados} count={114} />
+                  <IconCell href={`/profile/${userId}/fotos`} label="fotos" icon={ORKUT_MENU_ICONS.fotos} count={0} />
+                  <IconCell href="#" label="vídeos" icon={ORKUT_MENU_ICONS.videos} count={5} />
+                  <IconCell href="#" label="fãs" icon={ORKUT_MENU_ICONS.fans} count={15} />
                   {/* confiável */}
                   <td className="pr-3 align-top">
                     <div className="text-[#5a5a5a] text-[11px] leading-3.5">confiável</div>
@@ -90,13 +146,12 @@ export function OrkutMainColumn({ displayName, userId }: { displayName: string; 
                 </tr>
               </tbody>
             </table>
-            <div className="border-t border-[#d4e0ef]"></div>
+            <div className="border-t border-orkut-border"></div>
           </td>
         </tr>
         <tr>
           <td className="pb-0">
-            {/* "social" tab */}
-            <div className="inline-block bg-[#6b8cba] px-3 py-0.5 font-bold text-[12px] border border-[#5a7aaa] border-b-0 rounded-t" style={{ color: "#fff" }}>
+            <div className="inline-block bg-orkut-header-blue px-3 py-0.5 font-bold text-[12px] border border-orkut-border border-b-0 rounded-t text-orkut-link-dark">
               social
             </div>
           </td>
@@ -104,7 +159,7 @@ export function OrkutMainColumn({ displayName, userId }: { displayName: string; 
         <tr>
           <td className="orkut-social-table-wrap pt-0">
             <table
-              className="orkut-social-fields w-full border border-[#bcd2e8]"
+              className="orkut-social-fields w-full border border-orkut-border"
               cellPadding={0}
               cellSpacing={0}
             >
@@ -113,7 +168,7 @@ export function OrkutMainColumn({ displayName, userId }: { displayName: string; 
                 <col />
               </colgroup>
               <tbody>
-                {PROFILE_ROWS.map((row, i) => (
+                {profileRows.map((row, i) => (
                   <tr
                     key={row.label}
                     className={i % 2 === 0 ? "bg-[#E6F0FA]" : "bg-[#F5F9FF]"}
@@ -129,4 +184,21 @@ export function OrkutMainColumn({ displayName, userId }: { displayName: string; 
       </tbody>
     </table>
   );
+}
+
+export function OrkutMainColumn({
+  displayName,
+  userId,
+  isOwnProfile,
+  profileRows,
+}: {
+  displayName: string;
+  userId: string;
+  isOwnProfile: boolean;
+  profileRows: { label: string; value: ReactNode }[];
+}) {
+  if (isOwnProfile) {
+    return <OwnProfileView displayName={displayName} userId={userId} />;
+  }
+  return <VisitorProfileView displayName={displayName} userId={userId} profileRows={profileRows} />;
 }
