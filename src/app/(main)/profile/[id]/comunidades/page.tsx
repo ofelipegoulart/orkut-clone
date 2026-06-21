@@ -5,8 +5,8 @@ export default async function ComunidadesPage({ params }: { params: Promise<{ id
   const { id } = await params;
 
   return (
-    <div className="min-h-screen w-full bg-[#d4e0ef]">
-      <div className="orkut-col-main border border-[#bcd2e8] bg-white shadow-sm">
+    <div className="min-h-screen w-full bg-orkut-bg">
+      <div className="orkut-col-main border border-orkut-border bg-white shadow-sm">
         <table className="w-full border-collapse" cellPadding={0} cellSpacing={0}>
           <tbody>
             <tr>
@@ -30,13 +30,13 @@ export default async function ComunidadesPage({ params }: { params: Promise<{ id
               <td className="px-2 pb-4">
                 <div className="grid grid-cols-3 gap-2">
                   {COMMUNITIES.map((c) => (
-                    <div key={c.name} className="align-top bg-[#e8edf2] px-3 py-4 text-center">
+                    <div key={c.name} className="align-top bg-orkut-tab-inactive px-3 py-4 text-center">
                       <img
                         src={`https://picsum.photos/seed/comm-${c.seed}/48/48`}
                         alt=""
                         width={48}
                         height={48}
-                        className="mx-auto border border-[#bcd2e8]"
+                        className="mx-auto border border-orkut-border"
                       />
                       <div className="orkut-uname mt-1">
                         <a href="#">{c.name}</a>
@@ -50,7 +50,7 @@ export default async function ComunidadesPage({ params }: { params: Promise<{ id
         </table>
       </div>
       <div className="orkut-col-right">
-        <div className="border border-[#bcd2e8] bg-white shadow-sm rounded-[4px_14px_4px_4px]">
+        <div className="border border-orkut-border bg-white shadow-sm rounded-[4px_14px_4px_4px]">
           <OrkutFriends friends={FRIENDS} userId={id} />
         </div>
       </div>

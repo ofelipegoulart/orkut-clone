@@ -6,8 +6,8 @@ export default async function FotosPage({ params }: { params: Promise<{ id: stri
   const { id } = await params;
 
   return (
-    <div className="min-h-screen w-full bg-[#d4e0ef]">
-      <div className="orkut-col-main border border-[#bcd2e8] bg-white shadow-sm">
+    <div className="min-h-screen w-full bg-orkut-bg">
+      <div className="orkut-col-main border border-orkut-border bg-white shadow-sm">
         <table className="w-full border-collapse" cellPadding={0} cellSpacing={0}>
           <tbody>
             <tr>
@@ -36,10 +36,10 @@ export default async function FotosPage({ params }: { params: Promise<{ id: stri
         </table>
       </div>
       <div className="orkut-col-right">
-        <div className="border border-[#bcd2e8] bg-white shadow-sm rounded-[4px_14px_4px_4px]">
+        <div className="border border-orkut-border bg-white shadow-sm rounded-[4px_14px_4px_4px]">
           <OrkutFriends friends={FRIENDS} userId={id} />
         </div>
-        <div className="border border-[#bcd2e8] bg-white shadow-sm rounded-[4px_14px_4px_4px]">
+        <div className="border border-orkut-border bg-white shadow-sm rounded-[4px_14px_4px_4px]">
           <OrkutCommunities communities={COMMUNITIES} userId={id} />
         </div>
       </div>

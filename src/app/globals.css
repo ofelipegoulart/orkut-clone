@@ -1,10 +1,25 @@
 @import "tailwindcss";
 
-/* =====================================================
-   ORKUT 2009 — Base reset + typography
-   Sourced directly from the original orkut CSS (castro skin, Jul 2009).
-   font-size: 12px, color: #000, font-family: Verdana,Arial,sans-serif
-   ===================================================== */
+:root {
+  --orkut-bg: #d9e6f7;
+  --orkut-box-white: #ffffff;
+  --orkut-border: #c9d7f1;
+  --orkut-header-blue: #bfd4f2;
+  --orkut-tab-inactive: #e8eefa;
+  --orkut-link-dark: #4b66a1;
+  --orkut-accent-pink: #ff0084;
+}
+
+@theme {
+  --color-orkut-bg: var(--orkut-bg);
+  --color-orkut-box-white: var(--orkut-box-white);
+  --color-orkut-border: var(--orkut-border);
+  --color-orkut-header-blue: var(--orkut-header-blue);
+  --color-orkut-tab-inactive: var(--orkut-tab-inactive);
+  --color-orkut-link-dark: var(--orkut-link-dark);
+  --color-orkut-accent-pink: var(--orkut-accent-pink);
+}
+
 body,
 div,
 ul,
@@ -39,7 +54,7 @@ ul {
 
 /* Links — original orkut values */
 a {
-  color: #02679c;
+  color: var(--orkut-link-dark);
   text-decoration: none;
 }
 
@@ -260,7 +275,7 @@ img a {
 
 /* Gray divider between every row */
 .orkut-shell table.orkut-social-fields tr {
-  border-bottom: 1px solid #c8d8e8;
+  border-bottom: 1px solid var(--orkut-border);
 }
 
 .orkut-shell table.orkut-social-fields tr:last-child {
@@ -296,7 +311,7 @@ img a {
 
 .orkut-shell table.orkut-social-fields td.orkut-social-value a {
   font-weight: normal;
-  color: #02679c;
+  color: var(--orkut-link-dark);
 }
 
 /* Wrapper td for the social table — no extra padding */
@@ -362,3 +377,4 @@ img a {
   text-align: center;
   padding: 0 3px 3px;
 }
+

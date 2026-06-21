@@ -116,7 +116,7 @@ export default function OnboardingPage() {
 
   if (status === "loading") {
     return (
-      <div className="min-h-screen bg-[#D4DDED] flex items-center justify-center">
+      <div className="min-h-screen bg-orkut-bg flex items-center justify-center">
         <span className="text-sm text-[#333]">Carregando...</span>
       </div>
     );
@@ -124,7 +124,7 @@ export default function OnboardingPage() {
 
   return (
     <div
-      className="min-h-screen bg-[#D4DDED] text-xs text-black"
+      className="min-h-screen bg-orkut-bg text-xs text-black"
       style={{ fontFamily: "Verdana, Arial, sans-serif" }}
     >
       <header id="header">
@@ -167,7 +167,7 @@ export default function OnboardingPage() {
       </header>
 
       <div className="min-w-[920px] max-w-[1003px] mx-auto mt-4 px-2">
-        <div className="bg-white border border-[#bcd2e8] rounded-xl overflow-hidden">
+        <div className="bg-white border border-orkut-border rounded-xl overflow-hidden">
           <div className="px-5 pt-4">
             <h1 className="!text-[30px] font-normal !text-[#333] m-0 !leading-[1.2]">
               bem-vindo(a) ao orkut!
@@ -350,7 +350,7 @@ export default function OnboardingPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="bg-white border border-[#bcd2e8] rounded-lg px-3 py-1 text-[11px] font-bold text-[#3d6cab] cursor-pointer hover:bg-[#f5f8ff] disabled:opacity-50"
+                className="bg-white border border-orkut-border rounded-lg px-3 py-1 text-[11px] font-bold text-[#3d6cab] cursor-pointer hover:bg-[#f5f8ff] disabled:opacity-50"
               >
                 {loading
                   ? "salvando..."

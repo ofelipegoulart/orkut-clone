@@ -28,7 +28,7 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body suppressHydrationWarning className="min-h-screen w-full bg-[#d4e0ef]">
+      <body suppressHydrationWarning className="min-h-screen w-full bg-orkut-bg">
         <AuthSessionProvider>{children}</AuthSessionProvider>
       </body>
     </html>

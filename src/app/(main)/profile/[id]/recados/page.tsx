@@ -6,8 +6,8 @@ export default async function RecadosPage({ params }: { params: Promise<{ id: st
   const { id } = await params;
 
   return (
-    <div className="min-h-screen w-full bg-[#d4e0ef]">
-      <div className="orkut-col-main border border-[#bcd2e8] bg-white shadow-sm">
+    <div className="min-h-screen w-full bg-orkut-bg">
+      <div className="orkut-col-main border border-orkut-border bg-white shadow-sm">
         <table className="w-full border-collapse" cellPadding={0} cellSpacing={0}>
           <tbody>
             <tr>
@@ -19,7 +19,7 @@ export default async function RecadosPage({ params }: { params: Promise<{ id: st
                   Minha página de recados ({MOCK_RECADOS.length})
                 </h1>
                 <div className="text-[12px] ml-auto">
-                  <span className="text-[#5a5a5a]">todos podem enviar recados  • </span><a href="#" className="text-[#02679c] underline">alterar configurações</a>
+                  <span className="text-[#5a5a5a]">todos podem enviar recados  • </span><a href="#" className="text-orkut-link-dark underline">alterar configurações</a>
                 </div>
               </td>
             </tr>
@@ -34,12 +34,12 @@ export default async function RecadosPage({ params }: { params: Promise<{ id: st
               <td className="pb-3 px-2">
                 {/* Post Scrap Container */}
                 <div className="border-[#ccc] shadow-xl/10 bg-white rounded-xl mb-3 mt-2">
-                  <div className="border border-[#bcd2e8] p-3 rounded-xl">
+                  <div className="border border-orkut-border p-3 rounded-xl">
                     <textarea
                       placeholder="digite o texto ou cole HTML (HTML apenas para amigos)"
-                      className="w-full h-20 p-2 border border-[#bcd2e8] font-[Tahoma,Verdana,Arial,sans-serif] text-[12px]"
+                      className="w-full h-20 p-2 border border-orkut-border font-[Tahoma,Verdana,Arial,sans-serif] text-[12px]"
                     />
-                    <hr className="mb-2 border-0 border-t border-[#d4e0ef]" />
+                    <hr className="mb-2 border-0 border-t border-orkut-border" />
                     <div className="flex flex-wrap gap-2 mb-0.5 align-middle">
                       <button className="px-3 bg-white text-[#2A73A0]  text-[12px] font-bold border border-[#cccccc] rounded cursor-pointer">
                         enviar recado
@@ -50,12 +50,12 @@ export default async function RecadosPage({ params }: { params: Promise<{ id: st
                       <button className="px-3 bg-white text-[#2A73A0]  text-[12px] font-bold border border-[#cccccc] rounded cursor-pointer">
                         adicionar foto
                       </button>
-                      <span className="text-[#02679c] underline">dicas de recado</span>
+                      <span className="text-orkut-link-dark underline">dicas de recado</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="flex justify-between items-center py-2 border-t border-b border-[#d4e0ef]">
+                <div className="flex justify-between items-center py-2 border-t border-b border-orkut-border">
                   <div className="flex justify-between items-center text-[#5a5a5a] text-[12px]">
                     <div className="flex gap-2">
                       <button className="px-3 bg-white text-[#2A73A0] text-[12px] font-bold border border-[#cccccc] rounded cursor-pointer">
@@ -67,7 +67,7 @@ export default async function RecadosPage({ params }: { params: Promise<{ id: st
                     </div>
                   </div>
                   <div className="text-[#5a5a5a] text-[12px]">
-                    <select className="text-[11px] border border-[#bcd2e8] px-1 py-0.5">
+                    <select className="text-[11px] border border-orkut-border px-1 py-0.5">
                       <option>Ver 10 recados</option>
                       <option>Ver 20 recados</option>
                       <option>Ver 50 recados</option>
@@ -77,12 +77,12 @@ export default async function RecadosPage({ params }: { params: Promise<{ id: st
               </td>
             </tr>
             <tr>
-              <td className="flex justify-end items-center text-[#5a5a5a] text-[12px] py-2 border-b border-[#d4e0ef]">
+              <td className="flex justify-end items-center text-[#5a5a5a] text-[12px] py-2 border-b border-orkut-border">
                 <div className="flex gap-2">
                   <span>primeira</span>
                   <span className="text-[#ccc]">{"<"} anterior</span>
-                  <span className="text-[#02679c] underline">próxima {">"}</span>
-                  <span className="text-[#02679c] underline">última</span>
+                  <span className="text-orkut-link-dark underline">próxima {">"}</span>
+                  <span className="text-orkut-link-dark underline">última</span>
                 </div>
               </td>
             </tr>
@@ -105,14 +105,14 @@ export default async function RecadosPage({ params }: { params: Promise<{ id: st
                                 alt=""
                                 width={48}
                                 height={48}
-                                className="border border-[#bcd2e8]"
+                                className="border border-orkut-border"
                               />
                             </a>
                           </div>
                           <div className="flex-grow">
                             <div className="flex justify-between items-start">
                               <div>
-                                <a href={`/profile/${recado.authorId}`} className="text-[#02679c] font-bold text-[13px]">
+                                <a href={`/profile/${recado.authorId}`} className="text-orkut-link-dark font-bold text-[13px]">
                                   {recado.author}:
                                 </a>
                               </div>
@@ -123,7 +123,7 @@ export default async function RecadosPage({ params }: { params: Promise<{ id: st
                             <div className="text-[#333] text-[12px] leading-[16px] mt-1">
                               {recado.content}
                             </div>
-                            <div className="mt-2 flex gap-4 text-[#02679c] text-[11px]">
+                            <div className="mt-2 flex gap-4 text-orkut-link-dark text-[11px]">
                               <a href="#" className="underline">
                                 reply
                               </a>
@@ -146,10 +146,10 @@ export default async function RecadosPage({ params }: { params: Promise<{ id: st
         </table>
       </div>
       <div className="orkut-col-right">
-        <div className="border border-[#bcd2e8] bg-white shadow-sm rounded-[4px_14px_4px_4px]">
+        <div className="border border-orkut-border bg-white shadow-sm rounded-[4px_14px_4px_4px]">
           <OrkutFriends friends={FRIENDS} userId={id} />
         </div>
-        <div className="border border-[#bcd2e8] bg-white shadow-sm rounded-[4px_14px_4px_4px]">
+        <div className="border border-orkut-border bg-white shadow-sm rounded-[4px_14px_4px_4px]">
           <OrkutCommunities communities={COMMUNITIES} userId={id} />
         </div>
       </div>
