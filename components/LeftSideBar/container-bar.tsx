@@ -1,19 +1,20 @@
 import { ORKUT_MENU_ICONS } from "@/data/mock-data";
 import OrkutMenuIcon from "./menu-icon";
+import AvatarUpload from "./avatar-upload";
 
 export default function OrkutLeftSidebar({
   displayName,
   isOwnProfile = false,
   userId,
   avatarUrl,
+  showAddPhoto = false,
 }: {
   displayName: string;
   isOwnProfile?: boolean;
   userId?: string;
   avatarUrl?: string;
+  showAddPhoto?: boolean;
 }) {
-  const avatar = avatarUrl || "/avatar/default.png";
-
   const menuItems: [string, string][] = [
     [ORKUT_MENU_ICONS.perfil, "perfil"],
     [ORKUT_MENU_ICONS.recados, "recados"],
@@ -26,14 +27,8 @@ export default function OrkutLeftSidebar({
     <div>
       {/* ── Bloco 1: foto + nome + info ── */}
       <div className="pb-2 text-center">
-        <img
-          src={avatar}
-          alt=""
-          width={120}
-          height={120}
-          className="mx-auto"
-        />
-        <div className="mt-1 font-bold">
+        <AvatarUpload avatarUrl={avatarUrl} showAddPhoto={showAddPhoto} />
+        <div className="mt-1 font-bold text-orkut-link-blue">
           <a href="#">{displayName}</a>
         </div>
         <div className="text-[11px] text-left" style={{color: "#5a5a5a"}}>masculino, solteiro(a)</div>
@@ -48,13 +43,13 @@ export default function OrkutLeftSidebar({
         <>
           <div className="py-1 pl-[6px]">
             <div>
-              <a href="#" className="inline-flex items-center gap-1 text-orkut-link-dark text-[12px]">
+              <a href="#" className="inline-flex items-center gap-1 text-orkut-link-blue text-[12px]">
                 <OrkutMenuIcon src={ORKUT_MENU_ICONS.perfil} />
                 + amigo
               </a>
             </div>
             <div className="mt-[2px]">
-              <a href="#" className="text-orkut-link-dark text-[12px] pl-[20px]">mais »</a>
+              <a href="#" className="text-orkut-link-blue text-[12px] pl-[20px]">mais »</a>
             </div>
           </div>
           <div className="border-t border-orkut-border" />
@@ -87,7 +82,7 @@ export default function OrkutLeftSidebar({
                     <div className="flex items-center justify-between">
                       <a
                         href={href}
-                        className="inline-flex items-center gap-[5px] !text-[#5a5a5a] text-[12px] font-[Tahoma,Verdana,Arial,sans-serif] no-underline"
+                        className="inline-flex items-center gap-[5px] !text-[#5a5a5a] text-xs no-underline"
                       >
                         <OrkutMenuIcon src={iconSrc} />
                         {label}
@@ -95,7 +90,7 @@ export default function OrkutLeftSidebar({
                       {isOwnProfile && isPerfil && (
                         <a
                           href="/profile/EditSummary"
-                          className="text-orkut-link-dark text-[11px] font-[Tahoma,Verdana,Arial,sans-serif]"
+                          className="text-orkut-link-blue text-[11px]"
                         >
                           editar
                         </a>
