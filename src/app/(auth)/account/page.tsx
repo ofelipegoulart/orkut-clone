@@ -36,8 +36,7 @@ export default function LoginPage() {
 
   return (
     <div
-      className="min-h-screen bg-orkut-bg p-[10px] text-xs text-black"
-      style={{ fontFamily: "Verdana, Arial, sans-serif" }}
+      className="orkut-tahoma min-h-screen bg-orkut-bg p-[10px] text-xs text-black"
     >
       <div className="flex gap-[10px] w-full">
         {/* Left panel */}

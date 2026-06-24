@@ -12,7 +12,7 @@ export default function ForgotPasswdPage() {
   }
 
   return (
-    <div className="bg-white min-h-screen" style={{ fontFamily: "arial, sans-serif", fontSize: "13px" }}>
+    <div className="orkut-tahoma bg-white min-h-screen text-[13px]">
 
       {/* Top right nav */}
       <div className="text-right pt-1 pr-1.5" style={{ fontSize: "smaller" }}>
@@ -44,7 +44,7 @@ export default function ForgotPasswdPage() {
                     <td className="bg-[#3366cc] h-[2px] leading-[2px]" style={{ fontSize: "1px" }}>&nbsp;</td>
                   </tr>
                   <tr className="bg-[#e5ecf9]">
-                    <td className="pl-1.5 pb-1 pt-[3px]" style={{ fontFamily: "arial,sans-serif", fontSize: "13px" }}>
+                    <td className="orkut-tahoma pl-1.5 pb-1 pt-[3px] text-[13px]">
                       <b>Contas do Google</b>
                     </td>
                   </tr>

@@ -27,7 +27,7 @@ export default async function EditSummaryLayout({
   return (
     <>
       <div className="orkut-col-left border border-orkut-border bg-white shadow-sm">
-        <OrkutLeftSidebar displayName={displayName} isOwnProfile userId={userId} avatarUrl={avatarUrl} />
+        <OrkutLeftSidebar displayName={displayName} isOwnProfile userId={userId} avatarUrl={avatarUrl} showAddPhoto />
       </div>
       {children}
     </>

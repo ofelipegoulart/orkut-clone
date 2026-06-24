@@ -13,8 +13,7 @@ export default async function FotosPage({ params }: { params: Promise<{ id: stri
             <tr>
               <td className="pb-2 px-2 pt-2">
                 <h1
-                  className="font-normal text-black py-[7px] pb-[5px]"
-                  style={{ fontFamily: "Arial, Helvetica, sans-serif", fontSize: "22px", lineHeight: "28px", fontWeight: "normal" }}
+                  className="orkut-edit-title text-black py-[7px] pb-[5px]"
                 >
                   Fotos
                 </h1>
