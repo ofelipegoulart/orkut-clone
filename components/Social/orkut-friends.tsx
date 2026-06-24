@@ -4,33 +4,29 @@ export default function OrkutFriends({ friends, userId }: { friends: friends; us
     return (
         <div>
             <div>
-                <div className="font-[Tahoma,Verdana,Arial,sans-serif] text-[15px] leading-5.25 mt-1.25 mb-1.5 font-bold">
+                <div className="orkut-tahoma text-lg leading-5.25 mt-1.25 mb-1.5 font-bold">
                     <span className="text-black">meus amigos </span>
-                    <a href={`/profile/${userId}/amigos`} className="text-orkut-link-dark font-bold">({friends.length})</a>
+                    <a href={`/profile/${userId}/amigos`} className="text-orkut-link-blue font-bold">({friends.length})</a>
                 </div>
 
                 {friends.length === 0 ? (
                     <div>
-                        <div className="bg-orkut-tab-inactive -mx-1.25 px-2 py-2 font-thin text-[#5a5a5a]"
-                             style={{ fontFamily: "Tahoma, Verdana, Arial, sans-serif", fontSize: "11.5px" }}>
+                        <div className="bg-orkut-tab-inactive -mx-1.25 px-2 font-thin text-[#5a5a5a] text-[11.5px]">
                             você ainda não adicionou nenhum amigo
                         </div>
                         <div className="border-t border-orkut-border" />
                         <div className="flex justify-end items-center py-1.5 gap-x-0.5">
-                            <a href="#" className="text-orkut-link-dark font-bold"
-                               style={{ fontFamily: "Tahoma, Verdana, Arial, sans-serif", fontSize: "11px", textDecoration: "underline" }}>
+                            <a href="#" className="text-orkut-link-blue orkut-tahoma font-semibold text-sm underline">
                                 encontrar amigos »
                             </a>
-                            <a href="#" className="text-orkut-link-dark"
-                               style={{ fontFamily: "Tahoma, Verdana, Arial, sans-serif", fontSize: "11px", textDecoration: "underline" }}>
+                            <a href="#" className="text-orkut-link-blue text-[11px] underline">
                                 gerenciar
                             </a>
                         </div>
                         <div className="pb-2">
                             <button
                                 type="button"
-                                className="border border-orkut-border bg-white px-3 py-0.5 text-orkut-link-dark font-bold rounded-md cursor-pointer"
-                                style={{ fontFamily: "Tahoma, Verdana, Arial, sans-serif", fontSize: "11px" }}
+                                className="orkut-btn-white orkut-tahoma text-[14px]"
                             >
                                 adicionar amigos
                             </button>

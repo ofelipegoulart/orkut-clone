@@ -41,7 +41,7 @@ export function OrkutHeader({ email }: OrkutHeaderProps) {
           </li>
         </ul>
         <ul className="header-user">
-          <li><span className="text-white font-bold">{email}</span></li>
+          <li><span className="orkut-tahoma text-[16px] text-white font-bold">{email}</span></li>
           <li>
             <LogoutButton />
           </li>

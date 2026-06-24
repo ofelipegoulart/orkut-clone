@@ -18,9 +18,8 @@ function getFortuneOfTheDay(): string {
 function FortuneOfTheDay() {
   const fortune = getFortuneOfTheDay();
   return (
-    <div className="text-[14px] text-[#333] py-1" style={{ fontFamily: "Tahoma, Verdana, Arial, sans-serif" }}>
-      <span className="font-bold text-[14px]">Sorte do dia: </span>
-      {fortune}
+    <div className="orkut-tahoma font-bold text-[16px] text-[#333] py-1">
+      Sorte do dia: <span className="font-normal">{fortune}</span>
     </div>
   );
 }
@@ -46,8 +45,7 @@ function OwnProfileView({ displayName, userId }: { displayName: string; userId: 
         <tr>
           <td className="pb-1">
             <h1
-              className="font-normal text-black py-1.75 pb-1.25"
-              style={{ fontFamily: "Arial, Helvetica, sans-serif", fontSize: "22px", lineHeight: "28px", fontWeight: "normal" }}
+              className="orkut-edit-title text-black py-1.75 pb-1.25"
             >
               Bem-vindo, {displayName}
             </h1>
@@ -55,17 +53,15 @@ function OwnProfileView({ displayName, userId }: { displayName: string; userId: 
         </tr>
         <tr>
           <td className="pb-2">
-            <div className="flex items-center gap-2 border border-orkut-border bg-[#f5f9ff] px-2 py-1.5">
+            <div className="flex items-center gap-2 border border-orkut-border bg-white px-2 py-0.5 leading-tight">
               <span
-                className="flex-1 text-[#999] text-[12px]"
-                style={{ fontFamily: "Tahoma, Verdana, Arial, sans-serif" }}
+                className="orkut-tahoma flex-1 text-[#999] text-[12px] leading-tight"
               >
                 Defina seu status aqui
               </span>
               <button
                 type="button"
-                className="border border-orkut-border bg-orkut-tab-inactive px-3 py-0.5 text-[11px] text-[#333] cursor-default"
-                style={{ fontFamily: "Tahoma, Verdana, Arial, sans-serif" }}
+                className="orkut-btn-edit"
               >
                 editar
               </button>
@@ -105,8 +101,7 @@ function VisitorProfileView({ displayName, userId, profileRows }: { displayName:
         <tr>
           <td className="pb-2">
             <h1
-              className="font-normal text-black py-1.75 pb-1.25"
-              style={{ fontFamily: "Arial, Helvetica, sans-serif", fontSize: "22px", lineHeight: "28px", fontWeight: "normal" }}
+              className="orkut-edit-title text-black py-1.75 pb-1.25"
             >
               {displayName}
             </h1>

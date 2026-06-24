@@ -4,6 +4,7 @@ import { CURRENT_USER, FRIENDS, COMMUNITIES, PROFILE_ROWS } from "@/data/mock-da
 import OrkutCommunities from "@/components/Social/orkut-communities";
 import OrkutFriends from "@/components/Social/orkut-friends";
 import { OrkutMainColumn } from "@/components/ProfilePage/main-column";
+import { UpdatesSection } from "@/components/ProfilePage/updates-section";
 
 export default async function ProfilePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -18,19 +19,26 @@ export default async function ProfilePage({ params }: { params: Promise<{ id: st
 
   return (
     <div className="min-h-screen w-full bg-orkut-bg">
-      <div className="orkut-col-main border border-orkut-border bg-white shadow-sm">
-        <OrkutMainColumn
-          displayName={displayName}
-          userId={id}
-          isOwnProfile={isOwnProfile}
-          profileRows={profileRows}
-        />
+      <div className="orkut-col-main">
+        <div className="border border-orkut-border bg-white shadow-sm orkut-col-main-inner">
+          <OrkutMainColumn
+            displayName={displayName}
+            userId={id}
+            isOwnProfile={isOwnProfile}
+            profileRows={profileRows}
+          />
+        </div>
+        {isOwnProfile && (
+          <div className="orkut-col-section mt-1 bg-white border border-orkut-border px-2 py-1">
+            <UpdatesSection />
+          </div>
+        )}
       </div>
       <div className="orkut-col-right">
-        <div className="border border-orkut-border bg-white shadow-sm rounded-[4px_14px_4px_4px]">
+        <div className="border border-orkut-border bg-white shadow-sm rounded-lg">
           <OrkutFriends friends={friends} userId={id} />
         </div>
-        <div className="border border-orkut-border bg-white shadow-sm rounded-[4px_14px_4px_4px]">
+        <div className="border border-orkut-border bg-white shadow-sm rounded-lg">
           <OrkutCommunities communities={communities} userId={id} />
         </div>
       </div>
