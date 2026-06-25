@@ -1,6 +1,7 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import OrkutLeftSidebar from "@/components/LeftSideBar/container-bar";
+import { EditProfileProvider } from "@/components/EditProfile/edit-profile-context";
 
 export default async function EditSummaryLayout({
   children,
@@ -25,11 +26,11 @@ export default async function EditSummaryLayout({
   }
 
   return (
-    <>
+    <EditProfileProvider initialAvatar={avatarUrl}>
       <div className="orkut-col-left border border-orkut-border bg-white shadow-sm">
         <OrkutLeftSidebar displayName={displayName} isOwnProfile userId={userId} avatarUrl={avatarUrl} showAddPhoto />
       </div>
       {children}
-    </>
+    </EditProfileProvider>
   );
 }

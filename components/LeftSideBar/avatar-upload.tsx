@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { useAvatarContext } from "@/components/EditProfile/edit-profile-context";
 
 const DEFAULT_AVATAR = "/avatar/default.png";
 
@@ -12,20 +13,34 @@ export default function AvatarUpload({
   avatarUrl?: string;
   showAddPhoto?: boolean;
 }) {
-  const avatar = avatarUrl || DEFAULT_AVATAR;
-  const isDefault = !avatarUrl || avatarUrl === DEFAULT_AVATAR;
+  const ctx = useAvatarContext();
+
+  const displayAvatar = ctx ? ctx.avatarSrc : (avatarUrl || DEFAULT_AVATAR);
+  const isDefault = ctx ? ctx.isDefault : (!avatarUrl || avatarUrl === DEFAULT_AVATAR);
+
   const [dialogOpen, setDialogOpen] = useState(false);
   const [filePath, setFilePath] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  function handleFileSelect() {
-    fileInputRef.current?.click();
-  }
-
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
-    if (file) {
-      setFilePath(file.name);
+    if (!file) return;
+    setFilePath(file.name);
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const base64 = reader.result as string;
+      if (ctx) {
+        ctx.setAvatar(base64);
+      }
+      setDialogOpen(false);
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function handleRemove() {
+    if (ctx) {
+      ctx.removeAvatar();
     }
   }
 
@@ -33,40 +48,69 @@ export default function AvatarUpload({
     <>
       <div className="relative inline-block">
         <img
-          src={avatar}
+          src={displayAvatar}
           alt=""
           width={120}
           height={120}
           className="mx-auto block"
         />
-        {showAddPhoto && isDefault && (
-          <a
-            href="#"
-            className="avatar-add-photo"
-            onClick={(e) => {
-              e.preventDefault();
-              setDialogOpen(true);
-            }}
-          >
-            adicionar foto
-          </a>
-        )}
       </div>
+
+      {showAddPhoto && (
+        <div className="text-[11px] text-center mt-1">
+          {isDefault ? (
+            <a
+              href="#"
+              className="text-orkut-link"
+              onClick={(e) => {
+                e.preventDefault();
+                setDialogOpen(true);
+              }}
+            >
+              Adicionar Foto
+            </a>
+          ) : (
+            <>
+              <a
+                href="#"
+                className="text-orkut-link"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setDialogOpen(true);
+                }}
+              >
+                Alterar Foto
+              </a>
+              <span className="text-[#999]"> | </span>
+              <a
+                href="#"
+                className="text-orkut-link"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleRemove();
+                }}
+              >
+                Remover Foto
+              </a>
+            </>
+          )}
+        </div>
+      )}
 
       {dialogOpen &&
         createPortal(
-          <div className="xp-dialog-overlay" onClick={() => setDialogOpen(false)}>
-            <div className="xp-dialog" onClick={(e) => e.stopPropagation()}>
-              <h2 className="xp-dialog-title">Upload de foto</h2>
+          <div className="upload-photo-overlay" onClick={() => setDialogOpen(false)}>
+            <div className="upload-photo" onClick={(e) => e.stopPropagation()}>
+              <h2 className="upload-photo-title">Upload de Foto</h2>
 
-              <div className="xp-dialog-file-row">
+              <div className="upload-photo-file-row">
                 <input
                   type="text"
                   className="xp-file-path"
                   value={filePath}
                   readOnly
                 />
-                <button className="xp-btn" onClick={handleFileSelect}>
+                <button className="xp-btn" onClick={() => fileInputRef.current?.click()}>
                   Arquivo...
                 </button>
                 <button
@@ -85,7 +129,7 @@ export default function AvatarUpload({
                 onChange={handleFileChange}
               />
 
-              <p className="xp-dialog-notice">
+              <p className="upload-photo-notice">
                 Você pode <strong>enviar</strong> arquivos JPG, GIF, BMP ou PNG
                 (tamanho máximo de 10MB). Não envie fotos que contenham imagens
                 de personagens de desenho animado, pessoas famosas, nudez,
