@@ -1,4 +1,4 @@
-export type PrivacyLevel = "todos" | "amigos de amigos" | "apenas meus amigos" | "só eu";
+export type PrivacyLevel = "EVERYONE" | "FRIENDS_OF_FRIENDS" | "FRIENDS" | "ONLY_ME";
 
 export type ProfileGeneral = {
   nome: string;
@@ -15,6 +15,7 @@ export type ProfileGeneral = {
   cep: string;
   pais: string;
   idiomas: string[];
+  idiomasPrivacidade: PrivacyLevel;
   escola: string;
   escolaPrivacidade: PrivacyLevel;
   faculdade: string;

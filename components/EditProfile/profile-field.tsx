@@ -7,6 +7,7 @@ type BaseProps = {
   label: React.ReactNode;
   name: string;
   required?: boolean;
+  error?: string;
   privacy?: boolean;
   privacyValue?: PrivacyLevel;
   onPrivacyChange?: (value: PrivacyLevel) => void;
@@ -53,7 +54,7 @@ type ProfileFieldProps =
   | CheckboxFieldProps;
 
 export function ProfileField(props: ProfileFieldProps) {
-  const { label, name, required, privacy, privacyValue, onPrivacyChange, type } = props;
+  const { label, name, required, error, privacy, privacyValue, onPrivacyChange, type } = props;
 
   function renderField() {
     switch (type) {
@@ -148,18 +149,19 @@ export function ProfileField(props: ProfileFieldProps) {
             <img src="/icons/i_key.gif" alt="" />
             <select
               className="orkut-privacy-select"
-              value={privacyValue ?? "todos"}
+              value={privacyValue ?? "EVERYONE"}
               onChange={(e) => onPrivacyChange(e.target.value as PrivacyLevel)}
             >
               {PRIVACY_OPTIONS.map((opt) => (
-                <option key={opt} value={opt}>
-                  {opt}
+                <option key={opt.value} value={opt.value}>
+                  {opt.label}
                 </option>
               ))}
             </select>
           </span>
         )}
         {renderField()}
+        {error && <div className="orkut-field-error">{error}</div>}
       </td>
     </tr>
   );

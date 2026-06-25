@@ -3,11 +3,11 @@ import type { PrivacyLevel } from "./types";
 export { PAISES } from "./countries";
 export { IDIOMAS_OPTIONS } from "./languages";
 
-export const PRIVACY_OPTIONS: PrivacyLevel[] = [
-  "só eu",
-  "apenas meus amigos",
-  "amigos de amigos",
-  "todos",
+export const PRIVACY_OPTIONS: { value: PrivacyLevel; label: string }[] = [
+  { value: "ONLY_ME", label: "só eu" },
+  { value: "FRIENDS", label: "apenas meus amigos" },
+  { value: "FRIENDS_OF_FRIENDS", label: "amigos de amigos" },
+  { value: "EVERYONE", label: "todos" },
 ];
 
 export const MESES = [
