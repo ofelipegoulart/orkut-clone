@@ -1,13 +1,142 @@
-import { FRIENDS, COMMUNITIES, MOCK_RECADOS } from "@/data/mock-data";
+import { FRIENDS, COMMUNITIES, MOCK_RECADOS, type Scrap } from "@/data/mock-data";
 import OrkutCommunities from "@/components/Social/orkut-communities";
 import OrkutFriends from "@/components/Social/orkut-friends";
+import { MarkScrapsRead } from "@/components/Scraps/mark-scraps-read";
+
+function buildThreads(scraps: Scrap[]) {
+  const rootScraps = scraps.filter((s) => s.parentId === null);
+  const repliesByParent = new Map<string, Scrap[]>();
+
+  for (const scrap of scraps) {
+    if (scrap.parentId === null) continue;
+    const rootId = findRootId(scrap.parentId, scraps);
+    const existing = repliesByParent.get(rootId) ?? [];
+    existing.push(scrap);
+    repliesByParent.set(rootId, existing);
+  }
+
+  return rootScraps.map((root) => ({
+    root,
+    replies: (repliesByParent.get(root.id) ?? []).sort(
+      (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+    ),
+  }));
+}
+
+function findRootId(parentId: string, scraps: Scrap[]): string {
+  const parent = scraps.find((s) => s.id === parentId);
+  if (!parent || parent.parentId === null) return parentId;
+  return findRootId(parent.parentId, scraps);
+}
+
+function formatTimestamp(iso: string) {
+  const date = new Date(iso);
+  const hours = date.getHours();
+  const minutes = date.getMinutes().toString().padStart(2, "0");
+  const ampm = hours >= 12 ? "pm" : "am";
+  const h12 = hours % 12 || 12;
+
+  const now = new Date();
+  const diffMs = now.getTime() - date.getTime();
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+  let relative: string;
+  if (diffDays === 0) {
+    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+    if (diffHours < 1) {
+      const diffMins = Math.floor(diffMs / (1000 * 60));
+      relative = `${diffMins} min atrás`;
+    } else {
+      relative = `${diffHours}h atrás`;
+    }
+  } else if (diffDays === 1) {
+    relative = "ontem";
+  } else {
+    relative = `${diffDays} dias atrás`;
+  }
+
+  return `${h12}:${minutes} ${ampm} (${relative})`;
+}
+
+const UNREAD_STYLES = {
+  root: "border-[#e8a500] bg-[#fff3a8]",
+  reply: "border-[#d4a017] bg-[#fff3a8]",
+} as const;
+
+const READ_STYLES = {
+  root: "border-[#e8a500] bg-[#fef8e8]",
+  reply: "border-[#c4a24a] bg-[#fdf3d7]",
+} as const;
+
+function ScrapCard({ scrap, isReply }: { scrap: Scrap; isReply?: boolean }) {
+  const isUnread = scrap.readAt === null;
+  const variant = isReply ? "reply" : "root";
+  const styles = isUnread ? UNREAD_STYLES[variant] : READ_STYLES[variant];
+
+  return (
+    <div className={`border-l-4 ${styles} p-3 ${isReply ? "ml-8" : ""}`}>
+      <div className="flex gap-3">
+        <div className="shrink-0">
+          <input type="checkbox" className="mt-1" />
+        </div>
+        <div className="flex gap-3 grow">
+          <div className="shrink-0">
+            <a href={`/profile/${scrap.authorId}`}>
+              <img
+                src={`https://picsum.photos/seed/${scrap.authorAvatar}/48/48`}
+                alt=""
+                width={48}
+                height={48}
+                className="border border-orkut-border"
+              />
+            </a>
+          </div>
+          <div className="grow">
+            <div className="flex justify-between items-start">
+              <div className="flex items-center gap-1.5">
+                <a href={`/profile/${scrap.authorId}`} className="text-orkut-link font-bold text-[13px]">
+                  {scrap.authorName}:
+                </a>
+                {isUnread && (
+                  <span className="text-[10px] font-bold text-[#b8860b]">novo</span>
+                )}
+                {scrap.isPrivate && (
+                  <span className="text-[10px] text-[#999] italic">privado</span>
+                )}
+              </div>
+              <div className="text-[#999] text-[11px]">
+                {formatTimestamp(scrap.createdAt)}
+              </div>
+            </div>
+            <div className="text-[#333] text-[12px] leading-4 mt-1">
+              {scrap.content}
+            </div>
+            <div className="mt-2 flex gap-4 text-orkut-link text-[11px]">
+              <a href="#" className="underline">
+                reply
+              </a>
+              <a href="#" className="underline">
+                delete
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default async function RecadosPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
+  const threads = buildThreads(MOCK_RECADOS);
+  const totalCount = MOCK_RECADOS.length;
+  const unreadIds = MOCK_RECADOS.filter((s) => s.readAt === null).map((s) => s.id);
+  const unreadCount = unreadIds.length;
 
   return (
     <div className="min-h-screen w-full bg-orkut-bg">
-      <div className="orkut-col-main flex flex-col gap-[5px]">
+      <MarkScrapsRead scrapIds={unreadIds} />
+      <div className="orkut-col-main flex flex-col gap-1.25">
         {/* Send Scrap Box */}
         <div className="border border-orkut-border bg-white shadow-sm p-2 rounded-lg">
           <textarea
@@ -35,8 +164,13 @@ export default async function RecadosPage({ params }: { params: Promise<{ id: st
             <tbody>
               <tr>
                 <td className="flex flex-row pb-2 px-2 pt-2">
-                  <h1 className="orkut-edit-title text-black py-[7px] pb-[5px]">
-                    Minha página de recados ({MOCK_RECADOS.length})
+                  <h1 className="orkut-edit-title text-black py-1.75 pb-1.25">
+                    Minha página de recados ({totalCount})
+                    {unreadCount > 0 && (
+                      <span className="text-[12px] font-normal text-[#b8860b] ml-1">
+                        — {unreadCount} {unreadCount === 1 ? "novo" : "novos"}
+                      </span>
+                    )}
                   </h1>
                   <div className="text-[12px] ml-auto">
                     <span className="text-[#5a5a5a]">todos podem enviar recados  • </span><a href="#" className="text-orkut-link-blue underline">alterar configurações</a>
@@ -84,56 +218,23 @@ export default async function RecadosPage({ params }: { params: Promise<{ id: st
                 </td>
               </tr>
 
-              {/* Recados list */}
+              {/* Recados list - threaded */}
               <tr>
                 <td className="px-2 pb-3">
                   <div className="space-y-2 mt-2">
-                    {MOCK_RECADOS.map((recado) => (
-                      <div key={recado.id} className="border-l-4 border-[#e8a500] bg-[#fef8e8] p-3">
-                        <div className="flex gap-3">
-                          <div className="flex-shrink-0">
-                            <input type="checkbox" className="mt-1" />
-                          </div>
-                          <div className="flex gap-3 flex-grow">
-                            <div className="flex-shrink-0">
-                              <a href={`/profile/${recado.authorId}`}>
-                                <img
-                                  src={`https://picsum.photos/seed/${recado.authorSeed}/48/48`}
-                                  alt=""
-                                  width={48}
-                                  height={48}
-                                  className="border border-orkut-border"
-                                />
-                              </a>
+                    {threads.map((thread) => (
+                      <div key={thread.root.id} className="space-y-1">
+                        <ScrapCard scrap={thread.root} />
+                        {thread.replies.length > 0 && (
+                          <>
+                            {thread.replies.map((reply) => (
+                              <ScrapCard key={reply.id} scrap={reply} isReply />
+                            ))}
+                            <div className="ml-8 text-[11px] text-[#5a5a5a] italic pl-3">
+                              {thread.replies.length + 1} recados nesta conversa
                             </div>
-                            <div className="flex-grow">
-                              <div className="flex justify-between items-start">
-                                <div>
-                                  <a href={`/profile/${recado.authorId}`} className="text-orkut-link font-bold text-[13px]">
-                                    {recado.author}:
-                                  </a>
-                                </div>
-                                <div className="text-[#999] text-[11px]">
-                                  {recado.timestamp}
-                                </div>
-                              </div>
-                              <div className="text-[#333] text-[12px] leading-[16px] mt-1">
-                                {recado.content}
-                              </div>
-                              <div className="mt-2 flex gap-4 text-orkut-link text-[11px]">
-                                <a href="#" className="underline">
-                                  reply
-                                </a>
-                                <a href="#" className="underline">
-                                  View this conversation
-                                </a>
-                                <a href="#" className="text-red-600 underline">
-                                  delete
-                                </a>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+                          </>
+                        )}
                       </div>
                     ))}
                   </div>
