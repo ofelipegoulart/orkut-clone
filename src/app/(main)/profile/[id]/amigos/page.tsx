@@ -12,7 +12,7 @@ export default async function AmigosPage({ params }: { params: Promise<{ id: str
             <tr>
               <td className="pb-2 px-2 pt-2">
                 <h1
-                  className="orkut-edit-title text-black py-[7px] pb-[5px]"
+                  className="orkut-edit-title text-black py-1.75 pb-1.25"
                 >
                   Amigos ({FRIENDS.length})
                 </h1>

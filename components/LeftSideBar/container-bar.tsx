@@ -41,15 +41,15 @@ export default function OrkutLeftSidebar({
       {/* ── Bloco 2: + amigo (somente para perfis que não são do usuário logado) ── */}
       {!isOwnProfile && (
         <>
-          <div className="py-1 pl-[6px]">
+          <div className="py-1 pl-1.5">
             <div>
               <a href="#" className="inline-flex items-center gap-1 text-orkut-link-blue text-[12px]">
                 <OrkutMenuIcon src={ORKUT_MENU_ICONS.perfil} />
                 + amigo
               </a>
             </div>
-            <div className="mt-[2px]">
-              <a href="#" className="text-orkut-link-blue text-[12px] pl-[20px]">mais »</a>
+            <div className="mt-0.5">
+              <a href="#" className="text-orkut-link-blue text-[12px] pl-5">mais »</a>
             </div>
           </div>
           <div className="border-t border-orkut-border" />
@@ -78,11 +78,11 @@ export default function OrkutLeftSidebar({
                   key={label}
                   className={isOwnProfile ? "bg-white hover:bg-[#f5f5f5]" : "bg-[#ddeeff] hover:bg-[#c8e0f5]"}
                 >
-                  <td className="px-[6px] py-[3px]">
+                  <td className="px-1.5 py-0.75">
                     <div className="flex items-center justify-between">
                       <a
                         href={href}
-                        className="inline-flex items-center gap-[5px] !text-[#5a5a5a] text-xs no-underline"
+                        className="inline-flex items-center gap-1.25 text-[#5a5a5a]! text-xs no-underline"
                       >
                         <OrkutMenuIcon src={iconSrc} />
                         {label}

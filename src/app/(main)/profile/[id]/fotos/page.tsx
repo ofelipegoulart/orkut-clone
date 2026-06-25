@@ -13,7 +13,7 @@ export default async function FotosPage({ params }: { params: Promise<{ id: stri
             <tr>
               <td className="pb-2 px-2 pt-2">
                 <h1
-                  className="orkut-edit-title text-black py-[7px] pb-[5px]"
+                  className="orkut-edit-title text-black py-1.75 pb-1.25"
                 >
                   Fotos
                 </h1>
