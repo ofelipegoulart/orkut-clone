@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ProfileField } from "./profile-field";
+import { useTabForm } from "./use-tab-form";
 import type {
   PrivacyLevel,
   ProfileGeneral,
@@ -50,7 +51,113 @@ const TABS: { key: Tab; label: string }[] = [
   { key: "pessoal", label: "pessoal" },
 ];
 
-const DEFAULT_PRIVACY: PrivacyLevel = "todos";
+const DEFAULT_PRIVACY: PrivacyLevel = "EVERYONE";
+
+const INITIAL_GENERAL: ProfileGeneral = {
+  nome: "",
+  sobrenome: "",
+  genero: "",
+  relacionamento: "não há resposta",
+  nascimentoMes: "",
+  nascimentoDia: "",
+  nascimentoDataPrivacidade: DEFAULT_PRIVACY,
+  nascimentoAno: "",
+  nascimentoAnoPrivacidade: DEFAULT_PRIVACY,
+  cidade: "",
+  estado: "",
+  cep: "",
+  pais: "Brasil",
+  idiomas: [""],
+  idiomasPrivacidade: DEFAULT_PRIVACY,
+  escola: "",
+  escolaPrivacidade: DEFAULT_PRIVACY,
+  faculdade: "",
+  faculdadePrivacidade: DEFAULT_PRIVACY,
+  empresa: "",
+  empresaPrivacidade: DEFAULT_PRIVACY,
+  interessadoEm: [],
+  interessadoEmNamoro: "homens",
+};
+
+const INITIAL_SOCIAL: ProfileSocial = {
+  filhos: "não há resposta",
+  etnia: "não há resposta",
+  religiao: "sem resposta",
+  visaoPolitica: "sem resposta",
+  orientacaoSexual: "sem resposta",
+  orientacaoSexualPrivacidade: DEFAULT_PRIVACY,
+  humor: [],
+  estilo: [],
+  fumo: "não",
+  bebo: "não",
+  animais: "não gosto de animais de estimação",
+  moro: "não há resposta",
+  cidadeNatal: "",
+  paginaWeb: "",
+  quemSouEu: "",
+  paixoes: "",
+  esportes: "",
+  atividades: "",
+  livros: "",
+  musica: "",
+  programasTv: "",
+  cinema: "",
+  cozinhas: "",
+};
+
+const INITIAL_CONTACT: ProfileContact = {
+  emailPrincipal: "",
+  emailPrincipalPrivacidade: DEFAULT_PRIVACY,
+  emailsSecundarios: [],
+  im1: "",
+  im1Privacidade: DEFAULT_PRIVACY,
+  im2: "",
+  im2Privacidade: DEFAULT_PRIVACY,
+  telefoneResidencial: "",
+  telefoneResidencialPrivacidade: DEFAULT_PRIVACY,
+  telefoneCelular: "",
+  telefoneCelularPrivacidade: DEFAULT_PRIVACY,
+  endereco1: "",
+  endereco2: "",
+  enderecoCidade: "",
+  enderecoEstado: "",
+  enderecoCep: "",
+  enderecoPais: "Brasil",
+};
+
+const INITIAL_PROFESSIONAL: ProfileProfessional = {
+  escolaridade: "sem resposta",
+  escola: "",
+  faculdade: "",
+  curso: "",
+  diploma: "",
+  ano: "",
+  profissao: "",
+  setor: "",
+  empresa: "",
+  descricaoTrabalho: "",
+  telefoneTrabalho: "",
+  habilidadesProfissionais: "",
+  interessesProfissionais: "",
+};
+
+const INITIAL_PERSONAL: ProfilePersonal = {
+  corOlhos: "sem resposta",
+  corCabelo: "sem resposta",
+  altura: "",
+  tipoFisico: "não há resposta",
+  aparencia: "não há resposta",
+  arteCorpo: "não há resposta",
+  parPerfeito: "",
+  oQueMeAtrai: [],
+  oQueNaoSuporto: "",
+  primeiroEncontroIdeal: "",
+  relacionamentosAnteriores: "",
+  cincoCoisas: "",
+  noMeuQuarto: "",
+  oQueMaisChamaAtencao: "",
+  doQueMaisGosto: "não há resposta",
+};
 
 function EditTable({ children }: { children: React.ReactNode }) {
   return (
@@ -64,6 +171,40 @@ function EditTable({ children }: { children: React.ReactNode }) {
   );
 }
 
+function PrivacySelect({
+  value,
+  onChange,
+}: {
+  value: PrivacyLevel;
+  onChange: (v: PrivacyLevel) => void;
+}) {
+  return (
+    <span className="orkut-privacy-wrapper">
+      <img src="/icons/i_key.gif" alt="" />
+      <select
+        className="orkut-privacy-select"
+        value={value}
+        onChange={(e) => onChange(e.target.value as PrivacyLevel)}
+      >
+        {PRIVACY_OPTIONS.map((o) => (
+          <option key={o.value} value={o.value}>
+            {o.label}
+          </option>
+        ))}
+      </select>
+    </span>
+  );
+}
+
+function validateGeneral(data: ProfileGeneral): Record<string, string> {
+  const errors: Record<string, string> = {};
+  if (!data.nome.trim()) errors.nome = "Este campo é obrigatório.";
+  if (!data.sobrenome.trim()) errors.sobrenome = "Este campo é obrigatório.";
+  if (!data.genero) errors.genero = "Este campo é obrigatório.";
+  if (!data.pais) errors.pais = "Este campo é obrigatório.";
+  return errors;
+}
+
 // ────────────────────────────────────────────────
 // ABA GERAL
 // ────────────────────────────────────────────────
@@ -71,16 +212,17 @@ function EditTable({ children }: { children: React.ReactNode }) {
 function GeneralTab({
   data,
   update,
+  errors,
 }: {
   data: ProfileGeneral;
-  update: <K extends keyof ProfileGeneral>(key: K, value: ProfileGeneral[K]) => void;
+  update: (key: keyof ProfileGeneral, value: ProfileGeneral[keyof ProfileGeneral]) => void;
+  errors: Record<string, string>;
 }) {
   return (
     <EditTable>
-      {/* campos obrigatórios */}
-      <ProfileField type="text" label="nome" name="nome" required value={data.nome} onChange={(v) => update("nome", v)} />
-      <ProfileField type="text" label="sobrenome" name="sobrenome" required value={data.sobrenome} onChange={(v) => update("sobrenome", v)} />
-      <ProfileField type="radio" label="gênero" name="genero" required value={data.genero} onChange={(v) => update("genero", v)} options={["feminino", "masculino", "não binário"]} />
+      <ProfileField type="text" label="nome" name="nome" required value={data.nome} onChange={(v) => update("nome", v)} error={errors.nome} />
+      <ProfileField type="text" label="sobrenome" name="sobrenome" required value={data.sobrenome} onChange={(v) => update("sobrenome", v)} error={errors.sobrenome} />
+      <ProfileField type="radio" label="gênero" name="genero" required value={data.genero} onChange={(v) => update("genero", v)} options={["feminino", "masculino", "não binário"]} error={errors.genero} />
 
       <ProfileField
         type="select"
@@ -91,22 +233,13 @@ function GeneralTab({
         options={RELACIONAMENTO_OPTIONS}
       />
 
-      {/* nascimento — data */}
       <tr>
         <td className="orkut-edit-label">nascimento:</td>
         <td className="orkut-edit-field">
-          <span className="orkut-privacy-wrapper">
-            <img src="/icons/i_key.gif" alt="" />
-            <select
-              className="orkut-privacy-select"
-              value={data.nascimentoDataPrivacidade}
-              onChange={(e) => update("nascimentoDataPrivacidade", e.target.value as PrivacyLevel)}
-            >
-              {PRIVACY_OPTIONS.map((o) => (
-                <option key={o} value={o}>{o}</option>
-              ))}
-            </select>
-          </span>
+          <PrivacySelect
+            value={data.nascimentoDataPrivacidade}
+            onChange={(v) => update("nascimentoDataPrivacidade", v)}
+          />
           <select className="orkut-select" value={data.nascimentoMes} onChange={(e) => update("nascimentoMes", e.target.value)}>
             {MESES.map((m) => (
               <option key={m} value={m}>{m || "mês"}</option>
@@ -121,37 +254,32 @@ function GeneralTab({
         </td>
       </tr>
 
-      {/* nascimento — ano */}
       <tr>
         <td className="orkut-edit-label">ano de nascimento:</td>
         <td className="orkut-edit-field">
-          <span className="orkut-privacy-wrapper">
-            <img src="/icons/i_key.gif" alt="" />
-            <select
-              className="orkut-privacy-select"
-              value={data.nascimentoAnoPrivacidade}
-              onChange={(e) => update("nascimentoAnoPrivacidade", e.target.value as PrivacyLevel)}
-            >
-              {PRIVACY_OPTIONS.map((o) => (
-                <option key={o} value={o}>{o}</option>
-              ))}
-            </select>
-          </span>
+          <PrivacySelect
+            value={data.nascimentoAnoPrivacidade}
+            onChange={(v) => update("nascimentoAnoPrivacidade", v)}
+          />
           <input type="text" className="orkut-input orkut-input-sm" value={data.nascimentoAno} onChange={(e) => update("nascimentoAno", e.target.value)} maxLength={4} />
         </td>
       </tr>
 
-      {/* localização */}
       <ProfileField type="text" label="cidade" name="cidade" value={data.cidade} onChange={(v) => update("cidade", v)} />
       <ProfileField type="text" label="estado" name="estado" value={data.estado} onChange={(v) => update("estado", v)} />
       <ProfileField type="text" label="CEP" name="cep" value={data.cep} onChange={(v) => update("cep", v)} />
-      <ProfileField type="select" label="país" name="pais" required value={data.pais} onChange={(v) => update("pais", v)} options={PAISES} />
+      <ProfileField type="select" label="país" name="pais" required value={data.pais} onChange={(v) => update("pais", v)} options={PAISES} error={errors.pais} />
 
-      {/* idiomas */}
       {data.idiomas.map((idioma, i) => (
         <tr key={i}>
           <td className="orkut-edit-label">{i === 0 ? "idiomas que falo:" : ""}</td>
           <td className="orkut-edit-field">
+            {i === 0 && (
+              <PrivacySelect
+                value={data.idiomasPrivacidade}
+                onChange={(v) => update("idiomasPrivacidade", v)}
+              />
+            )}
             <select
               className="orkut-select"
               value={idioma}
@@ -187,7 +315,6 @@ function GeneralTab({
         </td>
       </tr>
 
-      {/* educação */}
       <ProfileField
         type="text"
         label="escola (ensino médio)"
@@ -208,8 +335,6 @@ function GeneralTab({
         privacyValue={data.faculdadePrivacidade}
         onPrivacyChange={(v) => update("faculdadePrivacidade", v)}
       />
-
-      {/* trabalho */}
       <ProfileField
         type="text"
         label="empresa / organização"
@@ -221,7 +346,6 @@ function GeneralTab({
         onPrivacyChange={(v) => update("empresaPrivacidade", v)}
       />
 
-      {/* interessado(a) em */}
       <ProfileField
         type="checkbox"
         label="interessado(a) em"
@@ -253,7 +377,7 @@ function SocialTab({
   update,
 }: {
   data: ProfileSocial;
-  update: <K extends keyof ProfileSocial>(key: K, value: ProfileSocial[K]) => void;
+  update: (key: keyof ProfileSocial, value: ProfileSocial[keyof ProfileSocial]) => void;
 }) {
   return (
     <EditTable>
@@ -302,11 +426,11 @@ function ContactTab({
   update,
 }: {
   data: ProfileContact;
-  update: <K extends keyof ProfileContact>(key: K, value: ProfileContact[K]) => void;
+  update: (key: keyof ProfileContact, value: ProfileContact[keyof ProfileContact]) => void;
 }) {
   return (
     <>
-      <p className="px-[10px] py-2 text-[11px] text-[#333] leading-[1.4] bg-white">
+      <p className="px-2.5 py-2 text-[11px] text-[#333] leading-[1.4] bg-white">
         Digite todos os endereços de e-mail.
         <br />
         Quando os membros adicionam amigos, usamos os endereços de e-mail que você fornece para identificá-lo.
@@ -327,22 +451,14 @@ function ContactTab({
           <tr key={i}>
             <td className="orkut-edit-label">{i === 0 ? "e-mails secundários:" : ""}</td>
             <td className="orkut-edit-field">
-              <span className="orkut-privacy-wrapper">
-                <img src="/icons/i_key.gif" alt="" />
-                <select
-                  className="orkut-privacy-select"
-                  value={item.privacidade}
-                  onChange={(e) => {
-                    const next = [...data.emailsSecundarios];
-                    next[i] = { ...next[i], privacidade: e.target.value as PrivacyLevel };
-                    update("emailsSecundarios", next);
-                  }}
-                >
-                  {PRIVACY_OPTIONS.map((o) => (
-                    <option key={o} value={o}>{o}</option>
-                  ))}
-                </select>
-              </span>
+              <PrivacySelect
+                value={item.privacidade}
+                onChange={(v) => {
+                  const next = [...data.emailsSecundarios];
+                  next[i] = { ...next[i], privacidade: v };
+                  update("emailsSecundarios", next);
+                }}
+              />
               <input
                 type="text"
                 className="orkut-input"
@@ -442,7 +558,7 @@ function ProfessionalTab({
   update,
 }: {
   data: ProfileProfessional;
-  update: <K extends keyof ProfileProfessional>(key: K, value: ProfileProfessional[K]) => void;
+  update: (key: keyof ProfileProfessional, value: ProfileProfessional[keyof ProfileProfessional]) => void;
 }) {
   return (
     <EditTable>
@@ -472,7 +588,7 @@ function PersonalTab({
   update,
 }: {
   data: ProfilePersonal;
-  update: <K extends keyof ProfilePersonal>(key: K, value: ProfilePersonal[K]) => void;
+  update: (key: keyof ProfilePersonal, value: ProfilePersonal[keyof ProfilePersonal]) => void;
 }) {
   return (
     <EditTable>
@@ -501,123 +617,72 @@ function PersonalTab({
 
 export function EditProfilePage() {
   const [activeTab, setActiveTab] = useState<Tab>("geral");
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const [general, setGeneral] = useState<ProfileGeneral>({
-    nome: "",
-    sobrenome: "",
-    genero: "",
-    relacionamento: "não há resposta",
-    nascimentoMes: "",
-    nascimentoDia: "",
-    nascimentoDataPrivacidade: DEFAULT_PRIVACY,
-    nascimentoAno: "",
-    nascimentoAnoPrivacidade: DEFAULT_PRIVACY,
-    cidade: "",
-    estado: "",
-    cep: "",
-    pais: "Brasil",
-    idiomas: [""],
-    escola: "",
-    escolaPrivacidade: DEFAULT_PRIVACY,
-    faculdade: "",
-    faculdadePrivacidade: DEFAULT_PRIVACY,
-    empresa: "",
-    empresaPrivacidade: DEFAULT_PRIVACY,
-    interessadoEm: [],
-    interessadoEmNamoro: "homens",
-  });
+  const generalForm = useTabForm<ProfileGeneral>(INITIAL_GENERAL);
+  const socialForm = useTabForm<ProfileSocial>(INITIAL_SOCIAL);
+  const contactForm = useTabForm<ProfileContact>(INITIAL_CONTACT);
+  const professionalForm = useTabForm<ProfileProfessional>(INITIAL_PROFESSIONAL);
+  const personalForm = useTabForm<ProfilePersonal>(INITIAL_PERSONAL);
 
-  const [social, setSocial] = useState<ProfileSocial>({
-    filhos: "não há resposta",
-    etnia: "não há resposta",
-    religiao: "sem resposta",
-    visaoPolitica: "sem resposta",
-    orientacaoSexual: "sem resposta",
-    orientacaoSexualPrivacidade: DEFAULT_PRIVACY,
-    humor: [],
-    estilo: [],
-    fumo: "não",
-    bebo: "não",
-    animais: "não gosto de animais de estimação",
-    moro: "não há resposta",
-    cidadeNatal: "",
-    paginaWeb: "",
-    quemSouEu: "",
-    paixoes: "",
-    esportes: "",
-    atividades: "",
-    livros: "",
-    musica: "",
-    programasTv: "",
-    cinema: "",
-    cozinhas: "",
-  });
-
-  const [contact, setContact] = useState<ProfileContact>({
-    emailPrincipal: "",
-    emailPrincipalPrivacidade: DEFAULT_PRIVACY,
-    emailsSecundarios: [],
-    im1: "",
-    im1Privacidade: DEFAULT_PRIVACY,
-    im2: "",
-    im2Privacidade: DEFAULT_PRIVACY,
-    telefoneResidencial: "",
-    telefoneResidencialPrivacidade: DEFAULT_PRIVACY,
-    telefoneCelular: "",
-    telefoneCelularPrivacidade: DEFAULT_PRIVACY,
-    endereco1: "",
-    endereco2: "",
-    enderecoCidade: "",
-    enderecoEstado: "",
-    enderecoCep: "",
-    enderecoPais: "Brasil",
-  });
-
-  const [professional, setProfessional] = useState<ProfileProfessional>({
-    escolaridade: "sem resposta",
-    escola: "",
-    faculdade: "",
-    curso: "",
-    diploma: "",
-    ano: "",
-    profissao: "",
-    setor: "",
-    empresa: "",
-    descricaoTrabalho: "",
-    telefoneTrabalho: "",
-    habilidadesProfissionais: "",
-    interessesProfissionais: "",
-  });
-
-  const [personal, setPersonal] = useState<ProfilePersonal>({
-    corOlhos: "sem resposta",
-    corCabelo: "sem resposta",
-    altura: "",
-    tipoFisico: "não há resposta",
-    aparencia: "não há resposta",
-    arteCorpo: "não há resposta",
-    parPerfeito: "",
-    oQueMeAtrai: [],
-    oQueNaoSuporto: "",
-    primeiroEncontroIdeal: "",
-    relacionamentosAnteriores: "",
-    cincoCoisas: "",
-    noMeuQuarto: "",
-    oQueMaisChamaAtencao: "",
-    doQueMaisGosto: "não há resposta",
-  });
-
-  function makeUpdater<T>(setter: React.Dispatch<React.SetStateAction<T>>) {
-    return <K extends keyof T>(key: K, value: T[K]) => {
-      setter((prev) => ({ ...prev, [key]: value }));
-    };
+  function cancelCurrentTab() {
+    switch (activeTab) {
+      case "geral": generalForm.cancel(); break;
+      case "social": socialForm.cancel(); break;
+      case "contato": contactForm.cancel(); break;
+      case "profissional": professionalForm.cancel(); break;
+      case "pessoal": personalForm.cancel(); break;
+    }
   }
 
-  const updateGeneral = makeUpdater(setGeneral);
-  const updateSocial = makeUpdater(setSocial);
-  const updateContact = makeUpdater(setContact);
-  const updateProfessional = makeUpdater(setProfessional);
-  const updatePersonal = makeUpdater(setPersonal);
+  function handleTabSwitch(newTab: Tab) {
+    if (newTab === activeTab) return;
+    cancelCurrentTab();
+    setErrors({});
+    setActiveTab(newTab);
+  }
+
+  function handleUpdate() {
+    setErrors({});
+
+    switch (activeTab) {
+      case "geral": {
+        const errs = validateGeneral(generalForm.data);
+        if (Object.keys(errs).length > 0) {
+          setErrors(errs);
+          return;
+        }
+        generalForm.getDirtyPayload();
+        generalForm.commit();
+        break;
+      }
+      case "social": {
+        socialForm.getDirtyPayload();
+        socialForm.commit();
+        break;
+      }
+      case "contato": {
+        contactForm.getDirtyPayload();
+        contactForm.commit();
+        break;
+      }
+      case "profissional": {
+        professionalForm.getDirtyPayload();
+        professionalForm.commit();
+        break;
+      }
+      case "pessoal": {
+        personalForm.getDirtyPayload();
+        personalForm.commit();
+        break;
+      }
+    }
+  }
+
+  function handleCancel() {
+    setErrors({});
+    cancelCurrentTab();
+  }
 
   return (
     <div className="orkut-edit-page">
@@ -641,7 +706,7 @@ export function EditProfilePage() {
                 ? "orkut-edit-tab orkut-edit-tab-active"
                 : "orkut-edit-tab"
             }
-            onClick={() => setActiveTab(tab.key)}
+            onClick={() => handleTabSwitch(tab.key)}
           >
             {tab.label}
           </button>
@@ -650,22 +715,23 @@ export function EditProfilePage() {
 
       {/* conteúdo da aba */}
       <div className="orkut-edit-body">
-        {activeTab === "geral" && <GeneralTab data={general} update={updateGeneral} />}
-        {activeTab === "social" && <SocialTab data={social} update={updateSocial} />}
-        {activeTab === "contato" && <ContactTab data={contact} update={updateContact} />}
-        {activeTab === "profissional" && <ProfessionalTab data={professional} update={updateProfessional} />}
-        {activeTab === "pessoal" && <PersonalTab data={personal} update={updatePersonal} />}
+        {activeTab === "geral" && <GeneralTab data={generalForm.data} update={generalForm.update} errors={errors} />}
+        {activeTab === "social" && <SocialTab data={socialForm.data} update={socialForm.update} />}
+        {activeTab === "contato" && <ContactTab data={contactForm.data} update={contactForm.update} />}
+        {activeTab === "profissional" && <ProfessionalTab data={professionalForm.data} update={professionalForm.update} />}
+        {activeTab === "pessoal" && <PersonalTab data={personalForm.data} update={personalForm.update} />}
 
         <div className="orkut-edit-buttons">
-          <button type="button" className="orkut-btn-edit">
+          <button type="button" className="orkut-btn-edit" onClick={handleUpdate}>
             atualizar
           </button>
           {" "}
-          <button type="button" className="orkut-btn-edit">
+          <button type="button" className="orkut-btn-edit" onClick={handleCancel}>
             cancelar
           </button>
         </div>
       </div>
+
     </div>
   );
 }
